@@ -1,7 +1,7 @@
 # Airbnb Marketing Analysis
 Welcome to our journey into the Data World! Join us as we learn do's and dont's data preparation and Workflow Management!
 
-## Overview
+## Project Overview
 
 * Data exploration
 * Data preparation
@@ -15,8 +15,8 @@ TBA. Explain to potential users how to run/replicate your workflow. If necessary
 
 ## More resources
 
-Point interested users to any related literature and/or documentation.
 
+Visit the data section at http://insideairbnb.com/get-the-data.html > Inside Airbnb.
 
 ## About
 
