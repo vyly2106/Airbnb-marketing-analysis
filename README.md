@@ -1,38 +1,12 @@
 # Airbnb Marketing Analysis
-```Welcome to our journey into the Data World! Join us as we learn do's and dont's data preparation and Workflow Management!```
+Welcome to our journey into the Data World! Join us as we learn do's and dont's data preparation and Workflow Management!
 
-## *What gets US going?*
+## Overview
 
-TBA. 
-Motivate your research question or business problem. Clearly explain which problem is solved.
-
-
-## Method and results
-
-TBA. 
-First, introduce and motivate your chosen method, and explain how it contributes to solving the research question/business problem.
-
-Second, summarize your results concisely. Make use of subheaders where appropriate.
-
-
-## Repository overview
-
-
-
-TBA. 
-Provide an overview of the directory structure and files, for example:
-
-├── README.md
-├── data
-├── gen
-│   ├── analysis
-│   ├── data-preparation
-│   └── paper
-└── src
-    ├── analysis
-    ├── data-preparation
-    └── paper
-
+* Data exploration
+* Data preparation
+* Automation
+* Analysis and Deployment
 
 ## Running instructions
 
