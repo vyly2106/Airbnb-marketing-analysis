@@ -22,3 +22,11 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 
 This project was created by Theresa, Fatima, Vy, Marissa for the class of [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
 
+## Repository structure:
+```
+.
+├── README.md
+├── data
+├── gen
+└── src
+```
