@@ -18,17 +18,7 @@ TBA. Explain to potential users how to run/replicate your workflow. If necessary
 
 Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.html)
 
-## About
+## About Us
 
 This project was created by Theresa, Fatima, Vy, Marissa for the class of [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
 
-## Repository overview
-
-Provide an overview of the directory structure and files:
-```
-.
-├── README.md
-├── data
-├── gen
-└── src
-```
