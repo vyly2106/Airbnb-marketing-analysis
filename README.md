@@ -16,7 +16,7 @@ TBA. Explain to potential users how to run/replicate your workflow. If necessary
 ## More resources
 
 
-Visit the data section at http://insideairbnb.com/get-the-data.html > Inside Airbnb.
+Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.html)
 
 ## About
 
