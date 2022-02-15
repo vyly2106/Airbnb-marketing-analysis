@@ -12,6 +12,14 @@ Welcome to our journey into the Data World! Join us as we learn do's and dont's 
 
 TBA. Explain to potential users how to run/replicate your workflow. If necessary, touch upon the required input data, which secret credentials are required (and how to obtain them), which software tools are needed to run the workflow (including links to the installation instructions), and how to run the workflow.
 
+## Repository structure:
+```
+.
+├── README.md
+├── data
+├── gen
+└── src
+```
 
 ## More resources
 
@@ -22,11 +30,3 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 
 This project was created by Theresa, Fatima, Vy, Marissa for the class of [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
 
-## Repository structure:
-```
-.
-├── README.md
-├── data
-├── gen
-└── src
-```
