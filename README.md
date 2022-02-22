@@ -1,4 +1,4 @@
-# Airbnb Marketing Analysis
+# Airbnb hosts' survival strategies during COVID-19
 Welcome to our journey into the Data World! Join us as we learn do's and dont's data preparation and Workflow Management!
 
 ## Project Overview
