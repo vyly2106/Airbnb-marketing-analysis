@@ -21,6 +21,7 @@ Datasets <- lapply(Airbnb_urls, function(url) {
   return(res)
 })
 
+
 combined_data = do.call('rbind', datasets)
 
 write.csv(combined_data, 'combined_city_data.csv', row.names=F)
