@@ -16,7 +16,8 @@ TBA. Explain to potential users how to run/replicate your workflow. If necessary
 ```
 .
 ├── README.md
-├── data
+├── docs
+├── tools
 ├── gen
 └── src
 ```
