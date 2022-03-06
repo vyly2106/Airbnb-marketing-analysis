@@ -1,12 +1,14 @@
 #Data Downloading
 #----------------
 ## Installing and loading necessary packages
+install.packages("here")
 library(googledrive)
 library(dplyr)
 library(tidyverse)
 library(readr)
 library(lubridate)
 library(ggplot2)
+library(here)
 options(warn = -1)
 
 #To download all of Europe's listing data to R (Doesn't authorize on my laptop)
@@ -47,7 +49,7 @@ write.csv(combined_data, 'combined_city_data.csv', row.names=F)
 
 
 ## Reading Covid data
-covid <- read.csv("/Users/claudiali/Downloads/data.csv") #need to use relative path
+covid <- read.csv(here("data", "covid_data.csv"))
 head(covid)
 
 # Data Cleaning
