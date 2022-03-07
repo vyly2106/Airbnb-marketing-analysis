@@ -1,4 +1,4 @@
-<p align="center"> <img src="https://user-images.githubusercontent.com/98845758/156996224-0fe0db78-1d9d-4869-82bd-6303f97fac72.png" width="900" height="450" >
+<p align="center"> <img src="https://user-images.githubusercontent.com/98845758/156996224-0fe0db78-1d9d-4869-82bd-6303f97fac72.png" width="700" height="350" >
 
 # <p align = "center"> Airbnb hosts' survival strategies during COVID-19 
  Welcome to our journey into the Data World! Join us as we gain insight into the Airbnb survival during COVID-19.
