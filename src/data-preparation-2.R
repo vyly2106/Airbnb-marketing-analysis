@@ -1,7 +1,15 @@
 #Data Downloading
 #----------------
-## Installing and loading necessary packages
+## Install the necessary packages
+install.packages("googledrive")
+install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("readr")
+install.packages("lubridate")
+install.packages("ggplot2")
 install.packages("here")
+
+## Load packages
 library(googledrive)
 library(dplyr)
 library(tidyverse)
