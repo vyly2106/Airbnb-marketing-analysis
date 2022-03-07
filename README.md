@@ -1,8 +1,8 @@
-# Airbnb hosts' survival strategies during COVID-19
-Welcome to our journey into the Data World! Join us as we gain insight into the Airbnb survival during COVID-19.
+<p align="center"> <img src="https://user-images.githubusercontent.com/98845758/156996224-0fe0db78-1d9d-4869-82bd-6303f97fac72.png" width="900" height="450" >
 
-<img src="https://user-images.githubusercontent.com/98845758/156996224-0fe0db78-1d9d-4869-82bd-6303f97fac72.png" width="600" height="300" align="center">
-
+# <p align = "center"> Airbnb hosts' survival strategies during COVID-19 
+ Welcome to our journey into the Data World! Join us as we gain insight into the Airbnb survival during COVID-19.
+  
 ## Research question 
 
 The goal of this project is to answer the following question based on data: *To what extend does the number of COVID-19 cases affect the number of Airbnb listings?*
