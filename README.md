@@ -1,5 +1,7 @@
 # Airbnb hosts' survival strategies during COVID-19
-Welcome to our journey into the Data World! Join us as we learn do's and dont's data preparation and Workflow Management!
+Welcome to our journey into the Data World! Join us as we gain insight into the Airbnb survival during COVID-19.
+
+<img src="https://user-images.githubusercontent.com/98845758/156996224-0fe0db78-1d9d-4869-82bd-6303f97fac72.png" width="600" height="300">
 
 ## Research question 
 
@@ -25,7 +27,11 @@ This repository contians data on the amount of COVID-19 cases per city. Furtherm
 
 ## Project Motivation
 
-### Research method
+### Details
+## Inputs and outputs
+* Input: 
+* Output:
+## Research method
 
 ## Project Overview
 
@@ -35,6 +41,11 @@ This repository contians data on the amount of COVID-19 cases per city. Furtherm
 * Analysis and Deployment
 
 ## Running instructions
+### Dependencies
+* R [(Installation Guide)](https://tilburgsciencehub.com/get/r)
+* For R packages, see source code files (see line with the following comment: #Installing and loading necessary packages)
+
+### Running the code
 
 TBA. Explain to potential users how to run/replicate your workflow. If necessary, touch upon the required input data, which secret credentials are required (and how to obtain them), which software tools are needed to run the workflow (including links to the installation instructions), and how to run the workflow.
 
