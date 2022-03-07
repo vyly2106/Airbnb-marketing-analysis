@@ -5,11 +5,11 @@ Welcome to our journey into the Data World! Join us as we gain insight into the 
 
 ## Research question 
 
-The goal of this project is to answer the follwing question based on data: *To what extend does the number of COVID-19 cases affect the number of Airbnb listings?*
+The goal of this project is to answer the following question based on data: *To what extend does the number of COVID-19 cases affect the number of Airbnb listings?*
 
 ## Repository content
 
-This repository contians data on the amount of COVID-19 cases per city. Furthermorem, is contains Airbnb data from **20XX-2021**. The data has been collected from various Europian cities, which include:
+This repository contains data on the number of COVID-19 cases per city. Furthermore, is contains Airbnb data from **20XX-2021**. The data has been collected from various European cities, which include:
 
 * Amsterdam,	Netherlands
 * Barcelona,	Spain
@@ -27,11 +27,11 @@ This repository contians data on the amount of COVID-19 cases per city. Furtherm
 
 ## Project Motivation
 
-### Details
-## Inputs and outputs
+## Details
+### Inputs and outputs
 * Input: 
 * Output:
-## Research method
+### Research method
 
 ## Project Overview
 
@@ -42,12 +42,16 @@ This repository contians data on the amount of COVID-19 cases per city. Furtherm
 
 ## Running instructions
 ### Dependencies
-* R [(Installation Guide)](https://tilburgsciencehub.com/get/r)
-* For R packages, see source code files (see line with the following comment: #Installing and loading necessary packages)
+* Make [(Installation Guide).](https://tilburgsciencehub.com/get/make)
+* R [(Installation Guide).](https://tilburgsciencehub.com/get/r)
+* For R packages, see source code files (lines staring with the following comment: Installing and loading necessary packages)
 
 ### Running the code
-
-TBA. Explain to potential users how to run/replicate your workflow. If necessary, touch upon the required input data, which secret credentials are required (and how to obtain them), which software tools are needed to run the workflow (including links to the installation instructions), and how to run the workflow.
+Open the command terminal/line:
+* Navigate to the directory where this readme file is located. Do this by typing `pwd` for Mac or `dir` for Windows in the terminal.
+> Note: If you have issues, type `cd yourpath/` to change your current directory)
+* Type `make` in the command terminal/line
+*
 
 ## Repository structure:
 ```
@@ -65,5 +69,5 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 
 ## About Us
 
-This project was created by Theresa, Vy,and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
+This project was created by Theresa, Vy, and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
 
