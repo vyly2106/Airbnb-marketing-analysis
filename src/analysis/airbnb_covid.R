@@ -1,3 +1,14 @@
+## Load packages
+library(googledrive)
+library(dplyr)
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(ggplot2)
+library(here)
+library(tidyr)
+options(warn = -1)
+
 # Data exploration
 #-----------------
 ## Loading merged_data of airbnb listings and covid
