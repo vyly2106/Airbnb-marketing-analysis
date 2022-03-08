@@ -24,9 +24,9 @@ combined_data <- combined_data%>%
 
 ### Transforming combined data from day to day to weekly basis
 combined_data2 <- combined_data%>%
-  group_by(year_week, country_code, room_type)%>%
-  summarise(price = mean(price, na.rm = T), minimum_nights = mean(minimum_nights, na.rm = T), number_of_reviews = mean(number_of_reviews, na.rm = T), 
-            reviews_per_month = mean(reviews_per_month, na.rm = T), calculated_host_listings_count = mean(calculated_host_listings_count, na.rm = T), 
+  group_by(country_code, year_week, room_type)%>%
+  summarise(avg_price = mean(price, na.rm = T), minimum_nights = mean(minimum_nights, na.rm = T), number_of_reviews = mean(number_of_reviews, na.rm = T), 
+            reviews_per_month = mean(reviews_per_month, na.rm = T), 
             availability_365 = mean(availability_365, na.rm = T),
             number_of_reviews_ltm = mean(number_of_reviews_ltm, na.rm = T))
 
@@ -46,7 +46,7 @@ covid2 <- covid%>%
 
 ## Final step: Joining covid and combined_data2
 merged_data <- inner_join(combined_data2, covid2[,c("year_week", "weekly_count", "rate_14_day", "cumulative_count", "country_code")], 
-                          by = c("year_week", "country_code"))
+                          by = c("country_code", "year_week"))
 
 ## Writing data into csv file
 write.csv(merged_data, here("gen/temp", "merged_data.csv"), row.names=F)

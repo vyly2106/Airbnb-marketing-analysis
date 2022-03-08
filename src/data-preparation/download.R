@@ -27,11 +27,13 @@ drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
 drive_download(as_id(drive_id), path = "data/Airbnb_listings.csv", overwrite = TRUE)
 Airbnb_links <- read.csv("data/Airbnb_listings.csv")
 
+Airbnb_links$URL <- Airbnb_links$URL %>%
+                      gsub("ä", "%C3%A4", .) %>% 
+                      gsub("ü", "%C3%BC", .)
+
 airbnb_urls <- as.character(Airbnb_links$URL)
 airbnb_country <- as.character(Airbnb_links$Country_code)
-airbnb_urls <- airbnb_urls%>% 
-  gsub("ä", "%C3%A4", .) %>% 
-  gsub("ü", "%C3%BC", .)
+
 
 ## Reading datasets for all countries
 tbl <- lapply(airbnb_urls, function(airbnb_urls){
