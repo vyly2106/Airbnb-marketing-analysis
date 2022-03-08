@@ -24,8 +24,8 @@ options(warn = -1)
 
 ## Importing Google Sheet as CSV in R
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
-drive_download(as_id(drive_id), path = "Airbnb_listings.csv", overwrite = TRUE)
-Airbnb_links <- read.csv("Airbnb_listings.csv")
+drive_download(as_id(drive_id), path = "data/Airbnb_listings.csv", overwrite = TRUE)
+Airbnb_links <- read.csv("data/Airbnb_listings.csv")
 
 airbnb_urls <- as.character(Airbnb_links$URL)
 airbnb_country <- as.character(Airbnb_links$Country_code)
