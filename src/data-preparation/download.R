@@ -33,8 +33,6 @@ airbnb_urls <- airbnb_urls%>%
   gsub("ä", "%C3%A4", .) %>% 
   gsub("ü", "%C3%BC", .)
 
-
-
 ## Reading datasets for all countries
 tbl <- lapply(airbnb_urls, function(airbnb_urls){
   print(paste0('Now downloading ... ', airbnb_urls))
