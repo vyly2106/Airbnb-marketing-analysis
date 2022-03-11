@@ -24,24 +24,23 @@ options(warn = -1)
 
 ## Importing Google Sheet as CSV in R
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
-drive_download(as_id(drive_id), path = "Airbnb_listings.csv", overwrite = TRUE)
-Airbnb_links <- read.csv("Airbnb_listings.csv")
+drive_download(as_id(drive_id), path = "data/Airbnb_listings.csv", overwrite = TRUE)
+Airbnb_links <- read.csv("data/Airbnb_listings.csv")
+
+Airbnb_links$URL <- Airbnb_links$URL %>%
+  gsub("ä", "%C3%A4", .) %>%
+  gsub("ü", "%C3%BC", .)
 
 airbnb_urls <- as.character(Airbnb_links$URL)
 airbnb_country <- as.character(Airbnb_links$Country_code)
-airbnb_urls <- airbnb_urls%>% 
-  gsub("ä", "%C3%A4", .) %>% 
-  gsub("ü", "%C3%BC", .)
-
-
 
 ## Reading datasets for all countries
-tbl <- lapply(airbnb_urls, function(airbnb_urls){
+tbl <- lapply(airbnb_urls, function(airbnb_urls) {
   print(paste0('Now downloading ... ', airbnb_urls))
   d <- read.csv(airbnb_urls)
-  city = tolower(as.character(Airbnb_links$City[match(airbnb_urls, Airbnb_links$URL)]))
+  city = tolower(Airbnb_links$City[match(airbnb_urls, Airbnb_links$URL)])
   d$city <- city
-  country_code = as.character(Airbnb_links$Country_code[match(airbnb_urls, Airbnb_links$URL)])
+  country_code = (Airbnb_links$Country_code[match(airbnb_urls, Airbnb_links$URL)])
   d$country_code <- country_code
   return(d)
 })
@@ -52,6 +51,6 @@ head(combined_data)
 glimpse(combined_data)
 
 ## Writing data into csv file
-write.csv(combined_data, here("gen/temp", "combined_city_data.csv"), row.names=F)
-
-
+write.csv(combined_data,
+          here("gen/temp", "combined_city_data.csv"),
+          row.names = F)

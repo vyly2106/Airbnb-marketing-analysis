@@ -8,7 +8,7 @@ The goal of this project is to answer the following question based on data: *To 
 
 ## Repository content
 
-This repository contains data on the number of COVID-19 cases per city. Furthermore, is contains Airbnb data from **20XX-2021**. The data has been collected from various European cities, which include:
+This repository contains data on the number of COVID-19 cases per city. Furthermore, is contains Airbnb data from 2021. The data has been collected from various European cities, which include:
 
 * Amsterdam,	Netherlands
 * Barcelona,	Spain
