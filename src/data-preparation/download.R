@@ -25,7 +25,7 @@ options(warn = -1)
 ## Importing Google Sheet as CSV in R
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
 drive_download(as_id(drive_id), path = "data/Airbnb_listings.csv", overwrite = TRUE)
-Airbnb_links <- read.csv("data/Airbnb_listings.csv")
+Airbnb_links <- read.csv("data/Airbnb_listings.csv", encoding = "UTF-8")
 
 Airbnb_links$URL <- Airbnb_links$URL %>%
   gsub("ä", "%C3%A4", .) %>%
