@@ -68,10 +68,15 @@ Open the command terminal/line:
 ## Repository structure:
 ```
 .
+.
 ├── README.md
-├── docs
+├── data
 ├── gen
-└── src
+├── src
+│   ├── analysis
+│   └── data-preparation
+├── makefile
+└── src.Rproj
 ```
 
 ## Data resources
