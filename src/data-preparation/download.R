@@ -9,6 +9,7 @@ install.packages("lubridate")
 install.packages("ggplot2")
 install.packages("here")
 install.packages("tidyr")
+install.packages("car")
 
 ## Load packages
 library(googledrive)

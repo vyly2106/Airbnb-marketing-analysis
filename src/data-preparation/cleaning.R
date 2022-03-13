@@ -7,10 +7,13 @@ library(lubridate)
 library(ggplot2)
 library(here)
 library(tidyr)
+library (car)
 options(warn = -1)
 
-# Data Cleaning
-#--------------
+#---------------#
+# Data Cleaning #
+#---------------#
+
 ## Airbnb data
 ### Loading combined_city_data.csv
 combined_data <-

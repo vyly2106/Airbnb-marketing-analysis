@@ -7,6 +7,7 @@ library(lubridate)
 library(ggplot2)
 library(here)
 library(tidyr)
+library (car)
 options(warn = -1)
 
 # Analysis: Regression model
