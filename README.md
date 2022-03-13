@@ -56,7 +56,7 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 |number_of_reviews_ltm|The number of new listing per quarter|
 |covid_weekly|The number of covid cases per week| 
 |rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
-|cumulative_count||
+|cumulative_count|The cumulative number of Covid-19 cases|
 
 ## Our findings
 (briefly summarize after analysis report is completed!)
