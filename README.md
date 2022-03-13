@@ -40,6 +40,24 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * Vienna,	Austria 
 * Zurich, Switzerland
 
+## Variable definitions
+
+| Varible name      | Description |
+| ----------- | ----------- |
+| year_week| The week number and year of which the data was collected|
+| country_code| The 3-letter ISO code  |
+|room_type|The room types(categories:Entire home/apt, Hotel room,Private room, Shared room ) |
+|avg_price|The average price of the listings|
+|minimum_nights||
+|number_of_reviews|The total number of reviews|
+|reviews_per_month|The number of reviews per month|
+|calculated_host_listing_count|The number of host listing |
+|availability_365|The number of available listings per year|
+|number_of_reviews_ltm|The number of new listing per quarter|
+|covid_weekly|The number of covid cases per week| 
+|rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
+|cumulative_count||
+
 ## Our findings
 (briefly summarize after analysis report is completed!)
 
