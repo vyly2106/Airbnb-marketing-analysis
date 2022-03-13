@@ -7,10 +7,12 @@ library(lubridate)
 library(ggplot2)
 library(here)
 library(tidyr)
+library (car)
 options(warn = -1)
 
-# Data exploration
-#-----------------
+#------------------#
+# Data exploration #
+#------------------#
 ## Loading merged_data of airbnb listings and covid
 merged_data <- read.csv(here("gen/temp", "merged_data.csv"))
 summary(merged_data)
