@@ -31,11 +31,14 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * Manchester,	United Kingdom
 * Prague,	Czech Republic
 * Rome,	Italy
+* Stockholm, Sweden
 * Thessaloniki,	Greece
+* Trentino, Italy
 * Valencia,	Spain
 * Vaud,	Switzerland
 * Venice,	Italy
 * Vienna,	Austria 
+* Zurich, Switzerland
 
 ## Our findings
 (briefly summarize after analysis report is completed!)
