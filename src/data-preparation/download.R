@@ -10,6 +10,9 @@ install.packages("ggplot2")
 install.packages("here")
 install.packages("tidyr")
 install.packages("car")
+install.packages("knitr")
+install.packages("table1")
+install.packages("kableExtra")
 
 ## Load packages
 library(googledrive)
@@ -20,6 +23,9 @@ library(lubridate)
 library(ggplot2)
 library(here)
 library(tidyr)
+library(knitr)
+library(table1)
+library(kableExtra)
 options(warn = -1)
 
 
@@ -39,9 +45,9 @@ airbnb_country <- as.character(Airbnb_links$Country_code)
 tbl <- lapply(airbnb_urls, function(airbnb_urls) {
   print(paste0('Now downloading ... ', airbnb_urls))
   d <- read.csv(airbnb_urls)
-  city = tolower(Airbnb_links$City[match(airbnb_urls, Airbnb_links$URL)])
+  city = tolower(as.character(Airbnb_links$City[match(airbnb_urls, Airbnb_links$URL)]))
   d$city <- city
-  country_code = (Airbnb_links$Country_code[match(airbnb_urls, Airbnb_links$URL)])
+  country_code = as.character(Airbnb_links$Country_code[match(airbnb_urls, Airbnb_links$URL)])
   d$country_code <- country_code
   return(d)
 })
