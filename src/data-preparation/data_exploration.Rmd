@@ -1,0 +1,105 @@
+---
+title: "Data Exploration"
+author: Team 5
+output:
+  html_document:
+    df_print: paged
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+<style>
+body {
+  color: #444444;
+  font-family: Calibri;
+  font-size: 20px
+  background-color: #F5F5F5;
+}
+pre {
+  color: #708090;
+  background-color: #F8F8FF;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
+```
+
+```{r loading_data, include = FALSE, echo = FALSE}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(here)
+library(tidyr)
+library(knitr)
+library(table1)
+library(kableExtra)
+combined_data <- read.csv(here("gen/temp", "combined_city_data.csv"))
+combined_data$room_type <- as.factor(combined_data$room_type)
+```
+
+### Overview of the Airbnb listings
+The `combined_data` contains listings of 16 analyzed European cities. It captures 192,837 observations in total, and not every city has the same number of listings as one another. Below is an overview of the first few rows and columns of the `combined_data`
+
+```{r load_dataset_as_table, echo = FALSE}
+kable(combined_data[1:10, c("id", "name", "room_type", "price", "minimum_nights", "number_of_reviews", "city", "country_code")], col.names = c("id", "name", "room_type", "price", "min_nights", "reviews", "city", "country") , align = "c", caption = "Table 1: Combined dataset of Airbnb listings of 16 cities")
+```
+
+
+
+After loading the dataset, we can start with inspection of "typical value" and "location" for each variable.
+
+
+### Estimates of location
+
+```{r statistics_summary, include = FALSE, echo = FALSE}
+table1::label(combined_data$room_type) <- "Room Types"
+table1::label(combined_data$price) <- "Price per night"
+table1::label(combined_data$minimum_nights) <- "Minimum nights"
+table1::label(combined_data$number_of_reviews) <- "Number of reviews"
+table1::label(combined_data$availability_365) <- "Availability"
+table1::label(combined_data$number_of_reviews_ltm) <- "New reviews received"
+
+
+summary_1 <- table1::table1(~ room_type + price + minimum_nights + number_of_reviews +
+                 availability_365 + number_of_reviews_ltm | city, data = combined_data)
+```
+
+```{r load summary table, echo = FALSE}
+t1kable(summary_1) %>%
+  kable_styling(full_width = F)
+```
+
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+
+
+```{r distribution of price as a whole, echo = FALSE, warning = FALSE}
+ggplot(combined_data, aes(x = price)) +
+  geom_histogram(bins = 30, fill = "steelblue", alpha = 0.6) +
+  geom_vline(aes(xintercept=mean(combined_data$price), color = "mean_price")) +
+  geom_vline(aes(xintercept=median(combined_data$price), color = "median_price")) +
+  scale_colour_manual(values = c("mean_price" = "red", "median_price" = "green")) +
+  labs(title = "Distribution of Price") +
+  xlim(c(0, 2000))
+```
+
+
+In terms of price, we have noticed different variation in price range, which is caused by how each listing is scraped in local currency. It could also be misled by the outliers of expensive entire home/apartment. Particularly, an average night price staying in Prague is 9020 Kč (≈ 360 €) and could vary up to maximum 2870000, whereas one night in Zurich costs on average 178 Fr (≈ 174 €). Furthermore, when looking at the measure of spread, most of price observations in Prague listing fall within above/below 128,000 Kč, indicating a wide data dispersion around the average price. Therefore, plotting distribution of Airbnb price as a whole can give us a false sense of description of location and data spread.
+
+
+```{r distribution of price by country, echo = FALSE, warning = FALSE}
+ggplot(combined_data, aes(x = price, fill = country_code)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Distribution of Price by Country") +
+  xlim(c(0, 2000)) +
+  facet_wrap( ~ country_code)
+```
+
+Without taking the log transformation to cancel out different units of measurement, we may assert a counter-intuitive conclusion, implying Prague is least affordable city for holiday than Zurich. In fact, cities like Zurich, Amsterdam and London are one of the top expensive destinations (Statista, 2021). Besides, logarithm of price is a basic yet effective approach to deal with non-normal distributed data.
+
+
+
+### References
+Statista. (2021). Least affordable cities for backpacking in Europe for 2020, by daily price index (in U.S. dollars). Retrieved from https://www.statista.com/statistics/696870/most-expensive-cities-for-backpacking-europe/
+
+Statista. (2021). Cheapest cities to visit in Europe as of December 2021, by daily price. Retrieved from https://www.statista.com/statistics/696725/most-affordable-cities-for-backpacking-europe/
+
