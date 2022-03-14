@@ -39,7 +39,7 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * Brussels, Belgium
 * Antwerp, Belgium
 * Berlin, Germany
-* Munich, 
+* Munich, Germany 
 
 ## Variable definitions
 
