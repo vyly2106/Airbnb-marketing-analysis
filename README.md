@@ -68,25 +68,10 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 ### Dependencies
 * Make [(Installation Guide).](https://tilburgsciencehub.com/get/make)
 * R [(Installation Guide).](https://tilburgsciencehub.com/get/r)
-* For R packages, see source code files (lines staring with the following comment: Installing and loading necessary packages)
+* Install R packages: Go to the `code` directory and run the `install_r_packages.R` file.
+> Note: Ensure to set the main directory as the working directory.
 
 ### Running the code
-Prerequisite: Open Rstudio and install the following packages before making any subsequent actions:
-
-```
-install.packages("googledrive")
-install.packages("dplyr")
-install.packages("tidyverse")
-install.packages("readr")
-install.packages("lubridate")
-install.packages("ggplot2")
-install.packages("tidyr")
-install.packages("car")
-install.packages("knitr")
-install.packages("table1")
-install.packages("kableExtra")
-```
-
 Open the command terminal/line:
 * Navigate to the directory where this readme file is located. Do this by typing `pwd` for Mac or `dir` for Windows in the terminal.
 > Note: If you have issues, type `cd yourpath/` to change your current directory)
@@ -98,6 +83,7 @@ Open the command terminal/line:
 .
 .
 ├── README.md
+├── code
 ├── data
 ├── gen
 ├── src
