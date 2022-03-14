@@ -12,7 +12,7 @@ options(warn = -1)
 #---------------#
 # Data Cleaning #
 #---------------#
-rm(combined_data)
+
 ## Airbnb data
 ### Loading combined_city_data.csv
 combined_data <- read.csv("../../gen/temp/combined_city_data.csv")
