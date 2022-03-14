@@ -31,14 +31,15 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * Manchester,	United Kingdom
 * Prague,	Czech Republic
 * Rome,	Italy
-* Stockholm, Sweden
 * Thessaloniki,	Greece
-* Trentino, Italy
 * Valencia,	Spain
 * Vaud,	Switzerland
 * Venice,	Italy
-* Vienna,	Austria 
-* Zurich, Switzerland
+* Vienna,	Austria
+* Brussels, Belgium
+* Antwerp, Belgium
+* Berlin, Germany
+* Munich, 
 
 ## Variable definitions
 
@@ -54,24 +55,14 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 |calculated_host_listing_count|The number of host listing |
 |availability_365|The number of available listings per year|
 |number_of_reviews_ltm|The number of new listing per quarter|
-|covid_weekly|The number of covid cases per week| 
+|weekly_count|The number of covid cases per week| 
 |rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
 |cumulative_count|The cumulative number of Covid-19 cases|
 
 ## Our findings
 (briefly summarize after analysis report is completed!)
 
-## Details
-### Inputs and outputs
-* Input: 
-* Output:
 
-## Project Overview
-
-* Data exploration
-* Data preparation
-* Automation
-* Analysis and Deployment
 
 ## Running instructions
 ### Dependencies
@@ -80,6 +71,20 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * For R packages, see source code files (lines staring with the following comment: Installing and loading necessary packages)
 
 ### Running the code
+Prerequisite:
+* Open Rstudio and install the following packages before making any subsequent actions:
+ install.packages("googledrive")
+ install.packages("dplyr")
+ install.packages("tidyverse")
+ install.packages("readr")
+ install.packages("lubridate")
+ install.packages("ggplot2")
+ install.packages("tidyr")
+ install.packages("car")
+ install.packages("knitr")
+ install.packages("table1")
+ install.packages("kableExtra")
+
 Open the command terminal/line:
 * Navigate to the directory where this readme file is located. Do this by typing `pwd` for Mac or `dir` for Windows in the terminal.
 > Note: If you have issues, type `cd yourpath/` to change your current directory)
@@ -108,20 +113,7 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 ## About Us
 
 This project was created by Theresa, Vy, and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
- 
- ## Install the necessary packages
- install.packages("googledrive")
- install.packages("dplyr")
- install.packages("tidyverse")
- install.packages("readr")
- install.packages("lubridate")
- install.packages("ggplot2")
- install.packages("here")
- install.packages("tidyr")
- install.packages("car")
- install.packages("knitr")
- install.packages("table1")
- install.packages("kableExtra")
+
 
 ## References
 TBD
