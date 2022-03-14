@@ -108,6 +108,20 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 ## About Us
 
 This project was created by Theresa, Vy, and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
+ 
+ ## Install the necessary packages
+ install.packages("googledrive")
+ install.packages("dplyr")
+ install.packages("tidyverse")
+ install.packages("readr")
+ install.packages("lubridate")
+ install.packages("ggplot2")
+ install.packages("here")
+ install.packages("tidyr")
+ install.packages("car")
+ install.packages("knitr")
+ install.packages("table1")
+ install.packages("kableExtra")
 
 ## References
 TBD
