@@ -31,7 +31,7 @@ library(kableExtra)
 options(warn = -1)
 
 
-## Importing Google Sheet as CSV in R
+## Importing Google Sheet as CSV in R. Note: setwd("../../data-preparation")
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
 drive_download(as_id(drive_id), path = "../../data/Airbnb_listings.csv", overwrite = TRUE)
 Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
@@ -39,6 +39,7 @@ Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
 Airbnb_links$URL <- Airbnb_links$URL %>%
   gsub("ä", "%C3%A4", .) %>%
   gsub("ü", "%C3%BC", .)
+
 
 airbnb_urls <- as.character(Airbnb_links$URL)
 airbnb_country <- as.character(Airbnb_links$Country_code)

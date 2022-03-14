@@ -17,7 +17,7 @@ options(warn = -1)
 ## Airbnb data
 ### Loading combined_city_data.csv
 combined_data <-
-  read.csv(here("gen/temp", "combined_city_data.csv"))
+  read.csv(paste0("../gen/temp", "combined_city_data.csv"))
 combined_data$room_type <- as.factor(combined_data$room_type)
 
 ### Filtering data for which last review date is not available and convert into year-week format
@@ -60,6 +60,6 @@ merged_data <-
              by = c("country_code", "year_week"))
 
 ## Writing data into csv file
-write.csv(merged_data, here("gen/temp", "merged_data.csv"), row.names =
+write.csv(merged_data, paste0("../../gen/temp", "merged_data.csv"), row.names =
             F)
 

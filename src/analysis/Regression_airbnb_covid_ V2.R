@@ -19,7 +19,7 @@ options(warn = -1)
 #----------------------------#
 
 ## Loading ListingsCovid of airbnb listings and covid
-ListingsCovid <- read.csv(here("gen/temp", "merged_data.csv"))
+ListingsCovid <- read.csv(here("../../gen/temp", "merged_data.csv"))
 
 #Inspect data:
 summary(ListingsCovid)
