@@ -3,7 +3,7 @@
 #-----------------#
 
 ## Install the necessary packages
-install.packages("googledrive")
+if(0){install.packages("googledrive")
 install.packages("dplyr")
 install.packages("tidyverse")
 install.packages("readr")
@@ -15,7 +15,7 @@ install.packages("car")
 install.packages("knitr")
 install.packages("table1")
 install.packages("kableExtra")
-
+}
 ## Load packages
 library(googledrive)
 library(dplyr)
@@ -33,8 +33,8 @@ options(warn = -1)
 
 ## Importing Google Sheet as CSV in R
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
-drive_download(as_id(drive_id), path = "data/Airbnb_listings.csv", overwrite = TRUE)
-Airbnb_links <- read.csv("data/Airbnb_listings.csv", encoding = "UTF-8")
+drive_download(as_id(drive_id), path = "../../data/Airbnb_listings.csv", overwrite = TRUE)
+Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
 
 Airbnb_links$URL <- Airbnb_links$URL %>%
   gsub("ä", "%C3%A4", .) %>%
@@ -61,5 +61,5 @@ glimpse(combined_data)
 
 ## Writing data into csv file
 write.csv(combined_data,
-          here("gen/temp", "combined_city_data.csv"),
+          paste0("../../gen/temp/combined_city_data.csv"),
           row.names = F)
