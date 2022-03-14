@@ -5,7 +5,6 @@ library(tidyverse)
 library(readr)
 library(lubridate)
 library(ggplot2)
-library(here)
 library(tidyr)
 library (car)
 options(warn = -1)
@@ -13,7 +12,7 @@ options(warn = -1)
 # Analysis: Regression model
 #-----------------
 ## Loading merged_data of airbnb listings and covid
-merged_data <- read.csv(here("gen/temp", "merged_data.csv"))
+merged_data <- read.csv("../../gen/temp/merged_data.csv")
 summary(merged_data)
 
 ## Model regresses listings' prices on covid weekly cases and other characteristics of listings

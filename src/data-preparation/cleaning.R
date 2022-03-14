@@ -5,19 +5,17 @@ library(tidyverse)
 library(readr)
 library(lubridate)
 library(ggplot2)
-library(here)
 library(tidyr)
-library (car)
+library(car)
 options(warn = -1)
 
 #---------------#
 # Data Cleaning #
 #---------------#
-
+rm(combined_data)
 ## Airbnb data
 ### Loading combined_city_data.csv
-combined_data <-
-  read.csv(paste0("../gen/temp", "combined_city_data.csv"))
+combined_data <- read.csv("../../gen/temp/combined_city_data.csv")
 combined_data$room_type <- as.factor(combined_data$room_type)
 
 ### Filtering data for which last review date is not available and convert into year-week format
@@ -41,7 +39,7 @@ combined_data2 <- combined_data %>%
 ## Covid data
 ### Downloading covid data from online dataset
 covid_df <- read.csv("https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv/data.csv")
-head(covid)
+head(covid_df)
 
 ### Converting covid year_week column to make it compatible with combined_data2 year_week column
 covid2 <- covid_df %>%
@@ -60,6 +58,6 @@ merged_data <-
              by = c("country_code", "year_week"))
 
 ## Writing data into csv file
-write.csv(merged_data, paste0("../../gen/temp", "merged_data.csv"), row.names =
+write.csv(merged_data, "../../gen/temp/merged_data.csv", row.names =
             F)
 
