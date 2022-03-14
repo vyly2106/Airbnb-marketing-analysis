@@ -14,17 +14,22 @@ code <- gsub('^library$', '', code)
 
 # retain unique packages
 uniq_packages <- unique(code)
- 
+
+# kick out "empty" package names
+uniq_packages <- uniq_packages[!uniq_packages == ''] 
 
 # order alphabetically
 uniq_packages <- uniq_packages[order(uniq_packages)] 
 
 cat('Required packages: \n')
 cat(paste0(uniq_packages, collapse= ', '),fill=T)
-cat('\n\n\n')
+cat('\n\n\n') 
 
 # retrieve list of already installed packages
 installed_packages <- installed.packages()[, 'Package']
+cat('Packages already installed: \n')
+cat(paste0(installed_packages, collapse= ', '),fill=T)
+cat('\n\n\n') 
 
 # identify missing packages
 to_be_installed <- setdiff(uniq_packages, installed_packages)
