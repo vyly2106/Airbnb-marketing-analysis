@@ -47,13 +47,13 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 | ----------- | ----------- |
 | year_week| The week number and year of which the data was collected|
 | country_code| The 3-letter ISO code  |
-|room_type|The room types(categories:Entire home/apt, Hotel room,Private room, Shared room ) |
+|room_type|The room types(Categories:Entire home/apt, Hotel room,Private room, Shared room) |
 |avg_price|The average price of the listings|
-|minimum_nights||
+|minimum_nights|maximum number of night stay for the listing (calendar rules may be different)|
 |number_of_reviews|The total number of reviews|
 |reviews_per_month|The number of reviews per month|
-|calculated_host_listing_count|The number of host listing |
-|availability_365|The number of available listings per year|
+|calculated_host_listing_count|The number of listings the host has in the current scrape, in the city/region geography |
+|availability_365|The availability of the listing x days in the future as determined by the calendar. Note: A listing may not be available because it has been booked by a guest or blocked by the host|
 |number_of_reviews_ltm|The number of new listing per quarter|
 |weekly_count|The number of covid cases per week| 
 |rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
@@ -96,7 +96,8 @@ Open the command terminal/line:
 ## Data resources
 
 
-Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.html)
+Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.html) and [European Centre for Disease Prevention and Control.](https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide)
+
 
 ## About Us
 
