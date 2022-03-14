@@ -11,7 +11,7 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 body {
   color: #444444;
   font-family: Calibri;
-  font-size: 20px
+  font-size: 12pt;
   background-color: #F5F5F5;
 }
 pre {
@@ -28,17 +28,16 @@ knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
-library(here)
 library(tidyr)
 library(knitr)
 library(table1)
 library(kableExtra)
-combined_data <- read.csv(here("gen/temp", "combined_city_data.csv"))
+combined_data <- read.csv("../../gen/temp/combined_city_data.csv")
 combined_data$room_type <- as.factor(combined_data$room_type)
 ```
 
 ### Overview of the Airbnb listings
-The `combined_data` contains listings of 16 analyzed European cities. It captures 192,837 observations in total, and not every city has the same number of listings as one another. Below is an overview of the first few rows and columns of the `combined_data`
+The `combined_data` contains listings of 17 analyzed European cities. It captures around 200,000 observations in total, and not every city has the same number of listings as one another. Below is an overview of the first few rows and columns of the `combined_data`
 
 ```{r load_dataset_as_table, echo = FALSE}
 kable(combined_data[1:10, c("id", "name", "room_type", "price", "minimum_nights", "number_of_reviews", "city", "country_code")], col.names = c("id", "name", "room_type", "price", "min_nights", "reviews", "city", "country") , align = "c", caption = "Table 1: Combined dataset of Airbnb listings of 16 cities")
@@ -83,7 +82,7 @@ ggplot(combined_data, aes(x = price)) +
 ```
 
 
-In terms of price, we have noticed different variation in price range, which is caused by how each listing is scraped in local currency. It could also be misled by the outliers of expensive entire home/apartment. Particularly, an average night price staying in Prague is 9020 Kč (≈ 360 €) and could vary up to maximum 2870000, whereas one night in Zurich costs on average 178 Fr (≈ 174 €). Furthermore, when looking at the measure of spread, most of price observations in Prague listing fall within above/below 128,000 Kč, indicating a wide data dispersion around the average price. Therefore, plotting distribution of Airbnb price as a whole can give us a false sense of description of location and data spread.
+In terms of price, we have noticed different variation in price range, which is caused by how each listing is scraped in local currency. It could also be misled by the outliers of expensive entire home/apartment. Particularly, an average night price staying in Prague is 9020 Kč (≈ 360 €) and could vary up to maximum 2870000, whereas one night in London costs on average 145 £ (≈ 172 €). Furthermore, when looking at the measure of spread, most of price observations in Prague listing fall within above/below 128,000 Kč, indicating a wide data dispersion around the average price. Therefore, plotting distribution of Airbnb price as a whole can give us a false sense of description of location and data spread.
 
 
 ```{r distribution of price by country, echo = FALSE, warning = FALSE}
@@ -94,7 +93,7 @@ ggplot(combined_data, aes(x = price, fill = country_code)) +
   facet_wrap( ~ country_code)
 ```
 
-Without taking the log transformation to cancel out different units of measurement, we may assert a counter-intuitive conclusion, implying Prague is least affordable city for holiday than Zurich. In fact, cities like Zurich, Amsterdam and London are one of the top expensive destinations (Statista, 2021). Besides, logarithm of price is a basic yet effective approach to deal with non-normal distributed data.
+Without taking the log transformation to cancel out different units of measurement, we may assert a counter-intuitive conclusion, implying Prague is least affordable city for holiday than London. In fact, cities like Amsterdam and London are one of the top expensive destinations (Statista, 2021). Besides, logarithm of price is a basic yet effective approach to deal with non-normal distributed data.
 
 
 

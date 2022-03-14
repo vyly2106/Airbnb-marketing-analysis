@@ -2,20 +2,6 @@
 #Data Downloading #
 #-----------------#
 
-## Install the necessary packages
-if(0){install.packages("googledrive")
-install.packages("dplyr")
-install.packages("tidyverse")
-install.packages("readr")
-install.packages("lubridate")
-install.packages("ggplot2")
-install.packages("here")
-install.packages("tidyr")
-install.packages("car")
-install.packages("knitr")
-install.packages("table1")
-install.packages("kableExtra")
-}
 ## Load packages
 library(googledrive)
 library(dplyr)
@@ -23,7 +9,6 @@ library(tidyverse)
 library(readr)
 library(lubridate)
 library(ggplot2)
-library(here)
 library(tidyr)
 library(knitr)
 library(table1)
@@ -31,15 +16,11 @@ library(kableExtra)
 options(warn = -1)
 
 
-## Importing Google Sheet as CSV in R. Note: setwd("../../data-preparation")
+## Importing Google Sheet as CSV in R. 
+### Note: Click Session (on menu bar) -> Set Working Directory -> To Source File Location
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
 drive_download(as_id(drive_id), path = "../../data/Airbnb_listings.csv", overwrite = TRUE)
 Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
-
-Airbnb_links$URL <- Airbnb_links$URL %>%
-  gsub("ä", "%C3%A4", .) %>%
-  gsub("ü", "%C3%BC", .)
-
 
 airbnb_urls <- as.character(Airbnb_links$URL)
 airbnb_country <- as.character(Airbnb_links$Country_code)

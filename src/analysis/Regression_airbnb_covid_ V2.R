@@ -1,6 +1,3 @@
-## Install the necessary packages
-install.packages("car")
-
 ## Load packages
 library(googledrive)
 library(dplyr)
@@ -8,10 +5,9 @@ library(tidyverse)
 library(readr)
 library(lubridate)
 library(ggplot2)
-library(here)
 library(tidyr)
 library(haven)
-library (car)
+library(car)
 options(warn = -1)
 
 #----------------------------#
@@ -19,7 +15,7 @@ options(warn = -1)
 #----------------------------#
 
 ## Loading ListingsCovid of airbnb listings and covid
-ListingsCovid <- read.csv(here("../../gen/temp", "merged_data.csv"))
+ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 
 #Inspect data:
 summary(ListingsCovid)
