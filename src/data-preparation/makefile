@@ -1,10 +1,6 @@
-DATA = ../../data
-TEMP = ../../gen/temp
+DATA = ../data
+all: $(DATA)/Airbnb_listings.csv
 
-all: $(DATA)/Airbnb_listings.csv $(TEMP)/combined_city_data.csv
-
-../../data/Airbnb_listings.csv: download.R
+../data/Airbnb_listings.csv: download.R
+	mkdir -p ../data
 	R --vanilla < download.R
-
-../../gen/temp/combined_city_data.csv: ../../data/Airbnb_listings.csv  cleaning.R
-	R --vanilla < cleaning.R
