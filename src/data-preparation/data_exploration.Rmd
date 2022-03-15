@@ -1,10 +1,11 @@
 ---
 title: "Data Exploration"
-author: Team 5
+author: "Team 5"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document:
     df_print: paged
-date: "`r format(Sys.time(), '%d %B %Y')`"
+  pdf_document: default
 ---
 
 <style>
