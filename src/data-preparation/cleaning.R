@@ -41,6 +41,10 @@ combined_data2 <- combined_data %>%
 covid_df <- read.csv("https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv/data.csv")
 head(covid_df)
 
+###not necessary to run just added for makefile purposes
+Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
+airbnb_country <- as.character(Airbnb_links$Country_code) 
+
 ### Converting covid year_week column to make it compatible with combined_data2 year_week column
 covid2 <- covid_df %>%
   separate(year_week, sep = "-", into = c("year", "week")) %>%
