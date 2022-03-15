@@ -14,6 +14,23 @@ Our study aims to explore how COVID-19 cases as well as other characteristics of
 ## Research methodology
 The analysis is performed on data from Inside Airbnb and European Centre for Disease Prevention and Control (ECDC). Inside Airbnb (insideairbnb.com) is public website which allows us to freely access to web-scraped data on Airbnb listings from every city. Our study focuses on European cities that are available on the website, so some may not be covered the analysis. We downloaded the latest scraped dataset in December 2021 for each analysed city. Therefore, we specifically selected COVID-19 data reporting number of confirmed cased up to 2021 so that we could match timestamp between two data sources. Detailed definitions of the analysed variables are listed below.
 
+| Varible name      | Description |
+| ----------- | ----------- |
+| year_week| The week number and year of which the data was collected|
+| country_code| The 3-letter ISO code  |
+|room_type|The room types(Categories:Entire home/apt, Hotel room,Private room, Shared room) |
+|avg_price|The average price of the listings|
+|minimum_nights|maximum number of night stay for the listing (calendar rules may be different)|
+|number_of_reviews|The total number of reviews|
+|reviews_per_month|The number of reviews per month|
+|calculated_host_listing_count|The number of listings the host has in the current scrape, in the city/region geography |
+|availability_365|The availability of the listing x days in the future as determined by the calendar. Note: A listing may not be available because it has been booked by a guest or blocked by the host|
+|number_of_reviews_ltm|The number of new listing per quarter|
+|weekly_count|The number of covid cases per week| 
+|rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
+|cumulative_count|The cumulative number of Covid-19 cases|
+
+
 Since in the Airbnb listings dataset is constructed by unique listing IDs, we first created a year-week variable based on the original last review date and time each listing received from guests. Although this matched the format used in COVID-19 dataset, the deployed technique restricted to listings which have guest reviews. Moving on the next stage, we calculated the average price for each year-week combination, city, and room types, hence we were able isolate outlier observations due to different characteristics of each city and room types. For instance, some cities have way higher living expense than others, and a whole apartment certainly costs more per night than a private room.
 
 All the analysed variables except for room types are measured at continuous scale, for that reason we implemented linear regression method. Besides, in line with prior research (Falk et al., 2019, Tang et al., 2019, Sainaghi et al., 2021) we applied logarithm transformation to our response variable. Based on our initial exploration, taking logarithm of price was part of the remedy to deal with the skewed distribution of price observations. 
@@ -41,23 +58,6 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 * Berlin, Germany
 * Munich, Germany 
 
-## Variable definitions
-
-| Varible name      | Description |
-| ----------- | ----------- |
-| year_week| The week number and year of which the data was collected|
-| country_code| The 3-letter ISO code  |
-|room_type|The room types(Categories:Entire home/apt, Hotel room,Private room, Shared room) |
-|avg_price|The average price of the listings|
-|minimum_nights|maximum number of night stay for the listing (calendar rules may be different)|
-|number_of_reviews|The total number of reviews|
-|reviews_per_month|The number of reviews per month|
-|calculated_host_listing_count|The number of listings the host has in the current scrape, in the city/region geography |
-|availability_365|The availability of the listing x days in the future as determined by the calendar. Note: A listing may not be available because it has been booked by a guest or blocked by the host|
-|number_of_reviews_ltm|The number of new listing per quarter|
-|weekly_count|The number of covid cases per week| 
-|rate_14_day|The 14-day notification rate of reported COVID-19 cases per 100,000 population or 14-day notification rate of reported deaths per 1,000,000 population|
-|cumulative_count|The cumulative number of Covid-19 cases|
 
 ## Our findings
 (briefly summarize after analysis report is completed!)
