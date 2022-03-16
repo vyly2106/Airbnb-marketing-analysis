@@ -34,7 +34,12 @@ library(car)
 library(knitr)
 library(table1)
 library(kableExtra)
+library(broom)
+library(sm)
 ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
+
+ListingsCovid <- ListingsCovid %>%
+  mutate(Lprice = log(avg_price))
 ```
 
 ### Summary of the Merged data
@@ -70,7 +75,8 @@ ggplot(ListingsCovid,
 
 ```{r simple regression, echo = FALSE, warning = FALSE}
 
-ListingsCovid_lm0 <- lm(log(avg_price) ~ weekly_count, ListingsCovid)
+ListingsCovid_lm0 <- lm(avg_price ~ weekly_count, ListingsCovid)
+
 summary(ListingsCovid_lm0)
 ```
 
@@ -78,7 +84,7 @@ summary(ListingsCovid_lm0)
 
 ```{r Regression Analysis Model 1, echo = FALSE, warning = FALSE}
 ListingsCovid_plot1 <-
-  lm(log(avg_price) ~ weekly_count +
+  lm(avg_price ~ weekly_count +
       room_type + minimum_nights +
       reviews_per_month +
       number_of_reviews_ltm +
@@ -104,27 +110,27 @@ ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_plot1)) + geom_point()
 ## Regression with added interactions between weekly count and room type
 
 ```{r Regression Analysis Model 2, echo = FALSE, warning = FALSE}
-ListingsCovid_plot2 <- plot(
-  log(avg_price) ~ weekly_count * room_type +
+ListingsCovid_lm2 <- lm(
+  avg_price ~ weekly_count * room_type +
     minimum_nights +
     reviews_per_month +
     number_of_reviews_ltm +
     availability_365,
   ListingsCovid
 )
-summary(ListingsCovid_plot2)
+summary(ListingsCovid_lm2)
 ```
 
 # check multicollinearity
 
 ```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
-vif(ListingsCovid_plot2)
+vif(ListingsCovid_lm2)
 ```
 
 # check heteroskedasticity
 
 ```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
-residuals_plot2 <- ListingsCovid_plot2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_plot2)) + geom_point()
+residuals_lm2 <- ListingsCovid_lm2$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point()
 ```
 
