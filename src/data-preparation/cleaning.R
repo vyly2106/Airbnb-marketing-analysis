@@ -27,14 +27,17 @@ combined_data <- combined_data %>%
 ### Transforming combined data from day to day to weekly basis
 combined_data2 <- combined_data %>%
   group_by(country_code, year_week, room_type) %>%
+  filter(price != 0) %>%
   summarise(
     avg_price = mean(price, na.rm = T),
+    log_price = log(avg_price),
     minimum_nights = mean(minimum_nights, na.rm = T),
     number_of_reviews = mean(number_of_reviews, na.rm = T),
     reviews_per_month = mean(reviews_per_month, na.rm = T),
     availability_365 = mean(availability_365, na.rm = T),
     number_of_reviews_ltm = mean(number_of_reviews_ltm, na.rm = T)
-  )
+  ) %>%
+  ungroup()
 
 ## Covid data
 ### Downloading covid data from online dataset
