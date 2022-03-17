@@ -31,6 +31,7 @@ library(tidyverse)
 library(readr)
 library(ggplot2)
 library(tidyr)
+library(broom)
 library(car)
 library(knitr)
 library(table1)
@@ -66,7 +67,7 @@ According to the statistics summary, entire home/apartment accumulates more than
 ggplot(ListingsCovid,
        aes(x = weekly_count, y = avg_price, color = country_code)) +
   geom_point() +
-  scale_y_log10()
+  scale_y_log10() + labs(y = "Log of average price", x = "Weekly Covid count")
 ```
 
 ### Scatterplot of Price per weekly count by country code
@@ -79,7 +80,7 @@ ggplot(ListingsCovid,
   geom_point() +
   scale_y_log10() +
   labs(title = "Price per weekly count by country code") +
-  facet_wrap(~ country_code)
+  facet_wrap(~ country_code) + labs(y = "Log of average price", x = "Weekly Covid count")
 ```
 
 ### Simple regression with DV Log avg_price and IV weekly_count
@@ -92,7 +93,7 @@ According to the statistics summary, entire home/apartment accumulates more than
 ```{r simple regression, echo = FALSE, warning = FALSE}
 
 lm(log_price ~ weekly_count, ListingsCovid)%>%
-  tidy () %>%
+  tidy() %>%
   kable(
     caption = "**Model 1: Simple Regression** ($n=252$)",
     align = c("l", "c", "c", "c", "c"),
@@ -143,8 +144,10 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 
 ```{r checking heteroskedasticity of Model 1, echo = FALSE, warning = FALSE}
+my_color <- "#FF5A60"
+
 residuals_lm1 <- ListingsCovid_lm1$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point()
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point( color = my_color)+ labs(y = "Log of average price", x = "Weekly Covid count", title= "Heteroskedasticity of model 1") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "bold"))
 ```
 
 ### Regression with added interactions between weekly count and room type
@@ -187,6 +190,6 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 ```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
 residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point()
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Log of average price", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "bold"))
 ```
 
