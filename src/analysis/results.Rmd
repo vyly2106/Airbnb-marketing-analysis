@@ -1,5 +1,5 @@
 ---
-title: "Data Analysis"
+title: "Airbnb Regression Analysis"
 author: "Team 5"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -36,14 +36,35 @@ library(car)
 library(knitr)
 library(table1)
 library(kableExtra)
+library(scales)
+library(table1)
+
 ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 
 ```
 
 ### Summary of the Merged data
 
-`merged_data` contains listings of 17 analyzed European cities. It captures around 200,000 observations in total, and not every city has the same number of listings as one another. Below is an overview of the first few rows and columns of the `merged_data`
+Hi there, welcome to our Regression Analysis dataset,`merged_data`, which consist of 13 variables and captures 252 observations in total! To get a brief overview of our dataset, the following is a summary of key variables used to carry out the regression analysis.
 
+```{r statistics_summary, include = FALSE, echo = FALSE}
+table1::label(merged_data$room_type)<-"Room Types"
+table1::label(merged_data$log_price) <-"Average price(log)"
+table1::label(merged_data$availability_365) <-"Availability"
+table1::label(merged_data$number_of_reviews_ltm)<-"New Reviews per quarter"
+table1::label(merged_data$reviews_per_month)<-"Monthly Reviews"
+table1::label(merged_data$weekly_count) <- "Weekly Covid Cases"
+
+
+overview_1 <- table1::table1(~ room_type + log_price + availability_365 + number_of_reviews_ltm +
+                               reviews_per_month+weekly_count|country_code, data = merged_data)
+```
+
+
+```{r load overview table, echo = FALSE}
+t1kable(overview_1) %>%
+  kable_styling(full_width = F)
+```
 
 ### Histogram of avg_price(both with and without log function)
 
@@ -52,7 +73,7 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 
 ```{r distribution of price by country, echo = FALSE, warning = FALSE}
-ggplot(ListingsCovid, aes(avg_price)) + geom_histogram(binwidth = 0.1, color="black", fill= "#FF5A60") + scale_x_log10() + labs(x = "Log of average price", y = "Frequency")
+ggplot(ListingsCovid, aes(avg_price)) + geom_histogram(binwidth = 0.1, color="black", fill= "#FF5A60")+ labs(x = "Average price (log)", y = "Frequency")+ scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),labels = trans_format("log10", math_format(10^.x)))
 
 ```
 
@@ -66,8 +87,8 @@ According to the statistics summary, entire home/apartment accumulates more than
 ```{r echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,
        aes(x = weekly_count, y = avg_price, color = country_code)) +
-  geom_point() +
-  scale_y_log10() + labs(y = "Log of average price", x = "Weekly Covid count")
+  geom_point() + labs(y = "Average price(log)", x = "Weekly Covid count(log)", color = "Country")+ scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),labels = trans_format("log10", math_format(10^.x)))+ scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+              labels = trans_format("log10", math_format(10^.x)))
 ```
 
 ### Scatterplot of Price per weekly count by country code
@@ -76,11 +97,10 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 ```{r Price per weekly count by country code, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price, color = country_code)) +
-  geom_point() +
-  scale_y_log10() +
-  labs(title = "Price per weekly count by country code") +
-  facet_wrap(~ country_code) + labs(y = "Log of average price", x = "Weekly Covid count")
+       aes(x = weekly_count, y = avg_price, color = country_code, digits=0))+ scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),labels = trans_format("log10", math_format(10^.x)))+
+  geom_point()+
+  labs(title = "Price per weekly Covid count by country") +
+  facet_wrap(~ country_code) + labs(y = "Average price(log)", x = "Weekly Covid count", color = "Country")
 ```
 
 ### Simple regression with DV Log avg_price and IV weekly_count
@@ -89,13 +109,13 @@ ggplot(ListingsCovid,
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
 
 
+  
 
 ```{r simple regression, echo = FALSE, warning = FALSE}
 
-lm(log_price ~ weekly_count, ListingsCovid)%>%
+lm(log_price ~ weekly_count,ListingsCovid)%>%
   tidy() %>%
-  kable(
-    caption = "**Model 1: Simple Regression** ($n=252$)",
+  kable(caption = "*Model 1: Simple Regression* ($n=252$)",
     align = c("l", "c", "c", "c", "c"),
     col.names = c(" ", "**Estimate**", "**Std. Error**", "**T value**", "**p.value**"),
     digits = c(0, 4, 4, 2, 4)
@@ -118,7 +138,7 @@ According to the statistics summary, entire home/apartment accumulates more than
   )%>%
   tidy() %>%
   kable(
-    caption = "Model 2: Multi Regression",
+    caption = "*Model 2: Multi Regression*($n=252$)",
     align = c("l", "c", "c", "c", "c"),
     col.names = c(" ", "Estimate", "Std. Error", "T value", "p.value"),
     digits = c(0, 4, 4, 2, 4)
@@ -135,7 +155,7 @@ ListingsCovid_lm1 <- lm(log_price ~ weekly_count +
                         reviews_per_month +
                         number_of_reviews_ltm +
                         availability_365, ListingsCovid)
-vif(ListingsCovid_lm1) %>% kable()
+vif(ListingsCovid_lm1) %>% kable(caption = "*Model 2: checking multicollinearity*")
 
 ```
 
@@ -147,7 +167,7 @@ According to the statistics summary, entire home/apartment accumulates more than
 my_color <- "#FF5A60"
 
 residuals_lm1 <- ListingsCovid_lm1$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point( color = my_color)+ labs(y = "Log of average price", x = "Weekly Covid count", title= "Heteroskedasticity of model 1") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "bold"))
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point( color = my_color)+ labs(y = "Average price(log)", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "italic"))
 ```
 
 ### Regression with added interactions between weekly count and room type
@@ -164,7 +184,7 @@ blah According to the statistics summary, entire home/apartment accumulates more
 )%>%
   tidy() %>%
   kable(
-    caption = "Model 3: Muliple Regression with Interactions",
+    caption = "_Model 3: Muliple Regression with Interactions_",
     align = c("l", "c", "c", "c", "c"),
     col.names = c(" ", "Estimate", "Std. Error", "T value", "p.value"),
     digits = c(0, 4, 4, 2, 4)
@@ -175,14 +195,14 @@ blah According to the statistics summary, entire home/apartment accumulates more
 
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
 
-```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
+```{r checking multicollinearity of Model 3, echo = FALSE, warning = FALSE}
 ListingsCovid_lm2 <-lm(log_price ~ weekly_count * room_type +
                          minimum_nights +
                          reviews_per_month +
                          number_of_reviews_ltm +
                          availability_365,
                        ListingsCovid)
-vif(ListingsCovid_lm2)%>% kable()
+vif(ListingsCovid_lm2)%>% kable(caption = "*Model 3: checking multicollinearity*")
 ```
 ### Check heteroskedasticity
 
@@ -190,6 +210,6 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 ```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
 residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Log of average price", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "bold"))
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Average price(log)", x = "Weekly Covid count", title= "Model 3: checking heteroskedasticity") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face="italic"))
 ```
 
