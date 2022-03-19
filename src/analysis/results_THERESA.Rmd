@@ -39,6 +39,8 @@ library(knitr)
 library(table1)
 library(kableExtra)
 library(scales)
+library(pander)
+
 ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 ListingsCovid$room_type <- as.factor(ListingsCovid$room_type)
 ```
@@ -103,13 +105,10 @@ According to the statistics summary, entire home/apartment accumulates more than
 
 ```{r simple regression, echo = FALSE, warning = FALSE}
 
-lm(log_price ~ weekly_count,ListingsCovid)%>%
-  tidy() %>%
-  kable(caption = "*Model 1: Simple Regression* ($n=252$)",
-    align = c("l", "c", "c", "c", "c"),
-    col.names = c(" ", "**Estimate**", "**Std. Error**", "**T value**", "**p.value**"),
-    digits = c(0, 4, 4, 2, 4)
-  )
+regression1 <- lm(log_price ~ weekly_count,ListingsCovid)
+
+pander(summary(regression1))
+
 ```
 
 ### Model 2: Multiple Regression with other characteristics of listings.
@@ -117,25 +116,19 @@ lm(log_price ~ weekly_count,ListingsCovid)%>%
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
 
 ```{r Regression Analysis Model 1, echo = FALSE, warning = FALSE}
-  lm(log_price ~ weekly_count +
+  regression2 <- lm(log_price ~ weekly_count +
       room_type + minimum_nights +
       reviews_per_month +
       number_of_reviews_ltm +
       availability_365,
-    ListingsCovid
-  )%>%
-  tidy() %>%
-  kable(
-    caption = "*Model 2: Multi Regression*($n=252$)",
-    align = c("l", "c", "c", "c", "c"),
-    col.names = c(" ", "Estimate", "Std. Error", "T value", "p.value"),
-    digits = c(0, 4, 4, 2, 4)
-  )
+    ListingsCovid)
+    
+pander(summary(regression2))
 ```
 
 ### Model 2: Checking for Multicollinearity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+All analysed variables have a GVIF below 10. According to the rule of thumb, there is no problem with multicollinearity for any of the variables.
 
 ```{r checking multicollinearity of Model 1, echo = FALSE, warning = FALSE}
 ListingsCovid_lm1 <- lm(log_price ~ weekly_count +
@@ -149,62 +142,60 @@ vif(ListingsCovid_lm1) %>% kable(caption = "*Model 2: checking multicollinearity
 
 ### Model 2: Check for Heteroskedasticity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+The residuals in model 2 have an unequal variance across all the independent variables, which indicates heteroskedasticy.
 
 ```{r checking heteroskedasticity of Model 1, echo = FALSE, warning = FALSE}
 my_color <- "#FF5A60"
 
-residuals_lm1 <- ListingsCovid_lm1$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point( color = my_color)+ labs(y = "Average price(log)", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "italic"))
+residuals_lm2 <- ListingsCovid_lm1$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point( color = my_color)+ geom_smooth( color = "black", method = "glm", formula = y~x,size = 0.5) + labs(y = "Average price(log)", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "italic"))
 ```
 
 ### Model 3: Regression with added interactions between weekly Covid-19 cases and room types.
 
-blah According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
+We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased. 
 
 ```{r Regression Analysis Model 2, echo = FALSE, warning = FALSE}
- lm(log_price ~ weekly_count * room_type +
+regression3 <- lm(log_price ~ weekly_count * room_type +
     minimum_nights +
     reviews_per_month +
     number_of_reviews_ltm +
     availability_365,
-  ListingsCovid
-)%>%
-  tidy() %>%
-  kable(
-    caption = "_Model 3: Muliple Regression with Interactions_",
-    align = c("l", "c", "c", "c", "c"),
-    col.names = c(" ", "Estimate", "Std. Error", "T value", "p.value"),
-    digits = c(0, 4, 4, 2, 4)
-  )
+  ListingsCovid) 
+
+pander(summary(regression3))
 ```
 
 ### Model 3: Checking for Multicollinearity
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
+The variable minimum_nights has the lowest GVIF, so it has the weakest correlation. Whereas,the highest is for the interaction between weekly_count and room_type. Interaction terms naturally produce higher multicollinearity. All analysed variables have a GVIF below 10. According to the rule of thumb,there is no problem with multicollinearity for any of the variables.
 
 ```{r checking multicollinearity of Model 3, echo = FALSE, warning = FALSE}
-ListingsCovid_lm2 <-lm(log_price ~ weekly_count * room_type +
+ListingsCovid_lm3 <-lm(log_price ~ weekly_count * room_type +
                          minimum_nights +
                          reviews_per_month +
                          number_of_reviews_ltm +
                          availability_365,
                        ListingsCovid)
-vif(ListingsCovid_lm2)%>% kable(caption = "*Model 3: checking multicollinearity*")
+vif(ListingsCovid_lm3)%>% kable(caption = "*Model 3: checking multicollinearity*")
 ```
 
 ### Model 3: Checking for Heteroskedasticity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+The residuals in model 3 have an unequal variance across all the independent variables, which indicates heteroskedasticy.
 
-```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
-residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Average price(log)", x = "Weekly Covid count", title= "Model 3: checking heteroskedasticity") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face="italic"))
+```{r checking heteroskedasticity of Model 3, echo = FALSE, warning = FALSE}
+residuals_lm3 <- ListingsCovid_lm3$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm3)) + geom_point(color = my_color) + geom_smooth( color = "black", method = "glm", formula = y~x,size = 0.5) +
+  labs(y = "Residuals", x = "Weekly Covid count", title= "Model 3: checking heteroskedasticity") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face="italic"))
+
+
+
 ```
 
 ### Conclusion
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
+In conclusion model 3 has the best model fit. 
 
 ### References
 
