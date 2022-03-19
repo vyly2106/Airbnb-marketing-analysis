@@ -43,87 +43,155 @@ ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 ListingsCovid$room_type <- as.factor(ListingsCovid$room_type)
 ```
 
-### Summary of the Data set
+### Summary of the dataset
 
-Hi there, welcome to our Regression Analysis data set,`ListingsCovid`, which consist of 13 variables and captures 252 observations in total! To get a brief overview of our data set, the following is a statistics summary of key variables used to carry out the regression analysis. The variables are segmented according to countries.
+Hi there, welcome to our regression analysis dataset (`ListingsCovid`), which consists of 13 variables and captures 252 observations in total! To get a clear picture of our dataset, the following statistical summary of key variables used to carry out the regression analysis is provided. Also, the variables are filtered according to countries.
 
 ```{r statistics_summary, include = FALSE, echo = FALSE}
-table1::label(ListingsCovid$room_type)<-"Room Types"
-table1::label(ListingsCovid$log_price) <-"Average Price(log)"
-table1::label(ListingsCovid$availability_365) <-"Availability"
-table1::label(ListingsCovid$number_of_reviews_ltm)<-"New Reviews per Quarter"
-table1::label(ListingsCovid$reviews_per_month)<-"Monthly Reviews"
+table1::label(ListingsCovid$room_type) <- "Room Types"
+table1::label(ListingsCovid$log_price) <- "Average Price(log)"
+table1::label(ListingsCovid$availability_365) <- "Availability"
+table1::label(ListingsCovid$number_of_reviews_ltm) <-
+  "New Reviews per Quarter"
+table1::label(ListingsCovid$reviews_per_month) <- "Monthly Reviews"
 table1::label(ListingsCovid$weekly_count) <- "Weekly Covid Cases"
 
-overview_1 <- table1::table1(~ room_type + log_price + availability_365 + number_of_reviews_ltm + reviews_per_month+weekly_count|country_code, data = ListingsCovid)
+overview_1 <-
+  table1::table1(
+    ~ room_type + log_price + availability_365 + number_of_reviews_ltm + reviews_per_month +
+      weekly_count | country_code,
+    data = ListingsCovid
+  )
 ```
 
 ```{r loading statistics summary table, echo =FALSE}
 t1kable(overview_1) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), font_size = 11)
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    font_size = 12
+  )
 ```
 
-### Histogram of Average Price(log)
+### Histogram of average price(log)
 
-The histogram below,shows the distribution of average price (log). The majority of data points are clustered on the right side of the histogram.Also there are quite a few outliers is data set.
+The histogram below indicates the distribution of our dependent variable -- average price(log). Overall, you can see how many times an average price range happens within the period of 2020-2021. Most data points are clustered on the right side of the histogram; indicating that average price (log) does not follow a normal distribution. Additionally, there are a few outliers in the dataset which can effect the results, nevertheless, we chosen to keep them so that you can make your own decision on whether or not to keep them!
 
 ```{r distribution of price by country, echo = FALSE, warning = FALSE}
-ggplot(ListingsCovid, aes(log_price)) + geom_histogram(binwidth = 0.3, color="black", fill= "#FF5A60")+ labs(x = "Average Price (log)", y = "Frequency")
+
+ggplot(ListingsCovid, aes(log_price)) +
+  geom_histogram(
+    aes(y = ..density..),
+    binwidth = 0.3,
+    color = "black",
+    fill = "#FF5A60"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(
+      mean = mean(ListingsCovid$log_price),
+      sd = sd(ListingsCovid$log_price)
+    ),
+    col = "#1C1103",
+    size = 0.75
+  ) +
+  labs(x = "Average Price (log)", y = "Frequency")
 
 ```
 
-### Scatter-plot of Average Price (log) per weekly Covid-19 cases
+### Scatter-plot of average price (log) vs weekly COVID-19 cases
 
-The scatter plot shows.....
-
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+The following scatterplot indicates whether we could determine a relationship between the average price and weekly COVID-19 cases. The results show that there is little to no correlation between the two variables;thus, it can be said that the weekly COVID-19 cases are irrelevant to the average price.
 
 ```{r echo = FALSE, warning = FALSE}
+my_color <- "#FF5A60"
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price, color = country_code)) +
-  geom_point() + labs(y = "Average price(log)", x = "Weekly Covid count(log)", color = "Country")+ scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),labels = trans_format("log10", math_format(10^.x)))+ scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
-              labels = trans_format("log10", math_format(10^.x)))
+       aes(x = weekly_count, y = avg_price)) +
+  geom_smooth(
+    method = "glm",
+    formula = y ~ x,
+    method.args = list(family = gaussian(link = 'log'))
+  ) +
+  geom_point(color = my_color) +
+  labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)") +
+  scale_y_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  scale_x_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  )
 ```
 
-### Scatter-plot of Average Price (log) and weekly Covid-19 cases by country 
+### Scatterplot(2) of average price (log) vs weekly COVID-19 cases by country
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country – showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Belgium show no correlation. 
 
-```{r Price per weekly count by country code, echo = FALSE, warning = FALSE}
+```{r Price per weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price, color = country_code, digits=0))+ scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),labels = trans_format("log10", math_format(10^.x)))+
-  geom_point()+
-  labs(title = "Price per weekly Covid count by country") +
-  facet_wrap(~ country_code) + labs(y = "Average price(log)", x = "Weekly Covid count", color = "Country")
+       aes(
+         x = weekly_count,
+         y = avg_price,
+         color = country_code,
+         digits = 0
+       )) +
+  scale_y_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  scale_x_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  geom_point() +
+  geom_smooth(
+    color = "black",
+    size = 0.3,
+    method = "glm",
+    formula = y ~ x,
+    method.args = list(family = gaussian(link = 'log'))
+  ) +
+  labs(title = "Price per weekly COVID-19 cases by country") +
+  facet_wrap( ~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)", color = "Country")
 ```
 
-### Model 1: Simple regression with the dependent variable as Average Price (log) and independent variable as weekly Covid-19 cases.
+### Model 1: Simple regression with the dependent variable as average price (log) and independent variable as weekly COVID-19 cases.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
 ```{r simple regression, echo = FALSE, warning = FALSE}
-
-lm(log_price ~ weekly_count,ListingsCovid)%>%
+lm(log_price ~ weekly_count, ListingsCovid) %>%
   tidy() %>%
   kable(caption = "*Model 1: Simple Regression* ($n=252$)",
     align = c("l", "c", "c", "c", "c"),
-    col.names = c(" ", "**Estimate**", "**Std. Error**", "**T value**", "**p.value**"),
+    col.names = c(
+      " ",
+      "**Estimate**",
+      "**Std. Error**",
+      "**T value**",
+      "**p.value**"
+    ),
     digits = c(0, 4, 4, 2, 4)
-  )
+ )
 ```
 
 ### Model 2: Multiple Regression with other characteristics of listings.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
-```{r Regression Analysis Model 1, echo = FALSE, warning = FALSE}
-  lm(log_price ~ weekly_count +
-      room_type + minimum_nights +
-      reviews_per_month +
-      number_of_reviews_ltm +
-      availability_365,
-    ListingsCovid
-  )%>%
+```{r Regression Analysis Model 2, echo = FALSE, warning = FALSE}
+  lm(
+  log_price ~ weekly_count +
+    room_type + minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+) %>%
   tidy() %>%
   kable(
     caption = "*Model 2: Multi Regression*($n=252$)",
@@ -133,36 +201,42 @@ According to the statistics summary, entire home/apartment accumulates more than
   )
 ```
 
-### Model 2: Checking for Multicollinearity.
+### Model 2: Checking for multicollinearity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
-```{r checking multicollinearity of Model 1, echo = FALSE, warning = FALSE}
-ListingsCovid_lm1 <- lm(log_price ~ weekly_count +
-                        room_type + minimum_nights +
-                        reviews_per_month +
-                        number_of_reviews_ltm +
-                        availability_365, ListingsCovid)
-vif(ListingsCovid_lm1) %>% kable(caption = "*Model 2: checking multicollinearity*")
-
+```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
+ListingsCovid_lm2 <- lm(
+  log_price ~ weekly_count +
+    room_type + minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+)
+vif(ListingsCovid_lm2) %>% kable(caption = "*Model 2: checking multicollinearity*")
 ```
 
-### Model 2: Check for Heteroskedasticity.
+### Model 2: Check for heteroskedasticity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
-```{r checking heteroskedasticity of Model 1, echo = FALSE, warning = FALSE}
+```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
 my_color <- "#FF5A60"
-
-residuals_lm1 <- ListingsCovid_lm1$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm1)) + geom_point( color = my_color)+ labs(y = "Average price(log)", x = "Weekly Covid count", title= "Heteroskedasticity of model 2") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face= "italic"))
+residuals_lm2 <- ListingsCovid_lm2$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Residuals", x = "Weekly COVID-19 Cases", title = "Heteroskedasticity of model 2") + theme(plot.title = element_text(
+  color = "black",
+  size = 14,
+  hjust = 0.5,
+  face = "italic"
+))
 ```
 
-### Model 3: Regression with added interactions between weekly Covid-19 cases and room types.
+### Model 3: Regression with added interactions between weekly COVID-19 cases and room types.
 
 blah According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
-```{r Regression Analysis Model 2, echo = FALSE, warning = FALSE}
+```{r Regression Analysis Model 3, echo = FALSE, warning = FALSE}
  lm(log_price ~ weekly_count * room_type +
     minimum_nights +
     reviews_per_month +
@@ -179,27 +253,33 @@ blah According to the statistics summary, entire home/apartment accumulates more
   )
 ```
 
-### Model 3: Checking for Multicollinearity
+### Model 3: Checking for multicollinearity
 
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
 ```{r checking multicollinearity of Model 3, echo = FALSE, warning = FALSE}
-ListingsCovid_lm2 <-lm(log_price ~ weekly_count * room_type +
+ListingsCovid_lm3 <-lm(log_price ~ weekly_count * room_type +
                          minimum_nights +
                          reviews_per_month +
                          number_of_reviews_ltm +
                          availability_365,
                        ListingsCovid)
-vif(ListingsCovid_lm2)%>% kable(caption = "*Model 3: checking multicollinearity*")
+vif(ListingsCovid_lm3)%>% kable(caption = "*Model 3: checking multicollinearity*")
 ```
 
-### Model 3: Checking for Heteroskedasticity.
+### Model 3: Checking for heteroskedasticity.
 
-According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
+According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighborhood compared to traditional hotels.
 
-```{r checking heteroskedasticity of Model 2, echo = FALSE, warning = FALSE}
-residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + labs(y = "Average price(log)", x = "Weekly Covid count", title= "Model 3: checking heteroskedasticity") + theme(plot.title = element_text(color="black", size=14, hjust = 0.5,face="italic"))
+```{r checking heteroskedasticity of Model 3, echo = FALSE, warning = FALSE}
+
+residuals_lm3 <- ListingsCovid_lm3$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm3)) + geom_point(color = my_color) + labs(y = "Residuals", x = "Weekly COVID-19 Cases", title = "Model 3: Checking heteroskedasticity") + theme(plot.title = element_text(
+  color = "black",
+  size = 14,
+  hjust = 0.5,
+  face = "italic"
+))
 ```
 
 ### Conclusion
