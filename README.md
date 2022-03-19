@@ -68,7 +68,7 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 ### Dependencies
 * Make [(Installation Guide).](https://tilburgsciencehub.com/get/make)
 * R [(Installation Guide).](https://tilburgsciencehub.com/get/r)
-* Install R packages: Go to the `code` directory and run the `install_r_packages.R` file  or run it from the command line:  `> Rscript install_packages.R`
+* Install R packages: Go to the `code` directory and run the `install_r_packages.R` file  or run it from the command line:  `> Rscript install_r_packages.R`
 > Note: Make sure to set the `main` directory as the working directory. This way all required packages will be installed.
 
 ### Running the code
