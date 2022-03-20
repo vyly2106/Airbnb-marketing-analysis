@@ -74,7 +74,7 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 ### Running the code
 Open the command terminal/line:
 * Navigate to the `src/analysis` directory. Do this by typing `pwd` for Mac or `dir` for Windows in the terminal.
-> Note: If you have issues, type `cd yourpath/` to change your current directory)
+> Note: If you have issues, type `cd yourpath/` to change your current directory
 
 * Type `make` in the command terminal/line
  
