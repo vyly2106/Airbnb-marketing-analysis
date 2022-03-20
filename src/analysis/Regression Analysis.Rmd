@@ -51,12 +51,13 @@ table1::label(ListingsCovid$availability_365) <- "Availability"
 table1::label(ListingsCovid$number_of_reviews_ltm) <-
   "New Reviews per Quarter"
 table1::label(ListingsCovid$reviews_per_month) <- "Monthly Reviews"
-table1::label(ListingsCovid$weekly_count) <- "Weekly Covid Cases"
+table1::label(ListingsCovid$log_weekly_count) <-
+  "Weekly Covid Cases(log)"
 
 overview_1 <-
   table1::table1(
     ~ room_type + log_price + availability_365 + number_of_reviews_ltm + reviews_per_month +
-      weekly_count | country_code,
+      log_weekly_count | country_code,
     data = ListingsCovid
   )
 ```
@@ -65,13 +66,13 @@ overview_1 <-
 t1kable(overview_1) %>%
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    font_size = 12
+    font_size = 13
   )
 ```
 
 ### Histogram of average price(log)
 
-The histogram below indicates the distribution of our dependent variable -- average price(log). Overall, you can see how many times an average price range happens within the period of 2020-2021. Most data points are clustered on the right side of the histogram; indicating that average price (log) does not follow a normal distribution. Additionally, there are a few outliers in the dataset which can effect the results, nevertheless, we chosen to keep them so that you can make your own decision on whether or not to keep them!
+The histogram below indicates the distribution of our dependent variable -- average price(log). Overall, you can see how many times an average price range happens within the period of 2020-2021. Most data points are clustered on the right side of the histogram; indicating that average price (log) does not follow a normal distribution.
 
 ```{r distribution of price by country, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid, aes(log_price)) +
@@ -79,7 +80,7 @@ ggplot(ListingsCovid, aes(log_price)) +
     aes(y = ..density..),
     binwidth = 0.3,
     color = "black",
-    fill = "#FF5A60"
+    fill = "#7DA7CA"
   ) +
   stat_function(
     fun = dnorm,
@@ -98,50 +99,32 @@ ggplot(ListingsCovid, aes(log_price)) +
 The following scatterplot indicates whether we could determine a relationship between the average price and weekly COVID-19 cases. The results show that there is little to no correlation between the two variables;thus, it can be said that the weekly COVID-19 cases are irrelevant to the average price.
 
 ```{r echo = FALSE, warning = FALSE}
-my_color <- "#FF5A60"
+my_color <- "#7DA7CA"
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price)) +
+       aes(x = log_weekly_count, y = log_price)) +
   geom_smooth(
+    color= "black",
+    size = 0.3,
     method = "glm",
     formula = y ~ x,
     method.args = list(family = gaussian(link = 'log'))
   ) +
   geom_point(color = my_color) +
-  labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)") +
-  scale_y_log10(
-    breaks = trans_breaks("log10", function(x)
-      10 ^ x),
-    labels = trans_format("log10", math_format(10 ^ .x))
-  ) +
-  scale_x_log10(
-    breaks = trans_breaks("log10", function(x)
-      10 ^ x),
-    labels = trans_format("log10", math_format(10 ^ .x))
-  )
+  labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)")
 ```
 
 ### Scatterplot(2) of average price (log) vs weekly COVID-19 cases by country
 
-Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Belgium show no correlation.
+Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Austria show no correlation.
 
 ```{r Price per weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,
        aes(
-         x = weekly_count,
-         y = avg_price,
+         x = log_weekly_count,
+         y = log_price,
          color = country_code,
          digits = 0
        )) +
-  scale_y_log10(
-    breaks = trans_breaks("log10", function(x)
-      10 ^ x),
-    labels = trans_format("log10", math_format(10 ^ .x))
-  ) +
-  scale_x_log10(
-    breaks = trans_breaks("log10", function(x)
-      10 ^ x),
-    labels = trans_format("log10", math_format(10 ^ .x))
-  ) +
   geom_point() +
   geom_smooth(
     color = "black",
@@ -151,7 +134,7 @@ ggplot(ListingsCovid,
     method.args = list(family = gaussian(link = 'log'))
   ) +
   labs(title = "Price per weekly COVID-19 cases by country") +
-  facet_wrap(~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)", color = "Country")
+  facet_wrap( ~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)", color = "Country")
 ```
 
 ### Model 1: Simple regression with the dependent variable as average price (log) and independent variable as weekly COVID-19 cases.
@@ -159,7 +142,7 @@ ggplot(ListingsCovid,
 We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased.
 
 ```{r Model 1: Simple Regression, echo = FALSE, warning = FALSE}
-regression1 <- lm(log_price ~ weekly_count, ListingsCovid)
+regression1 <- lm(log_price ~ log_weekly_count, ListingsCovid)
 pander(summary(regression1))
 ```
 
@@ -169,7 +152,7 @@ We have added the interaction between weekly_count and room_type to model 2 to c
 
 ```{r Model 2:Multi Regression, echo = FALSE, warning = FALSE}
 regression2 <- lm(
-  log_price ~ weekly_count +
+  log_price ~ log_weekly_count +
     room_type + minimum_nights +
     reviews_per_month +
     number_of_reviews_ltm +
@@ -184,7 +167,7 @@ In terms of multicollinearity, all analysed variables have a GVIF below 10. Acco
 
 ```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
 ListingsCovid_lm2 <- lm(
-  log_price ~ weekly_count +
+  log_price ~ log_weekly_count +
     room_type + minimum_nights +
     reviews_per_month +
     number_of_reviews_ltm +
@@ -197,10 +180,10 @@ vif(ListingsCovid_lm2) %>% kable(caption = "*Model 2: checking multicollinearity
 As for heteroskedasticity, the residuals in model 2 have an unequal variance across all the independent variables; overall indicating heteroskedasticity.
 
 ```{r Model 2: Heteroskedasticity, echo = FALSE, warning = FALSE}
-y_color <- "#FF5A60"
+my_color <- "#7DA7CA"
 
 residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
+ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
   color = "black",
   method = "glm",
   formula = y ~ x,
@@ -248,16 +231,16 @@ vif(ListingsCovid_lm3) %>% kable(caption = "*Model 3: Checking multicollinearity
 The residuals in model 3 have an unequal variance across all the independent variables, which indicates heteroskedasticity.
 
 ```{r checking heteroskedasticity of Model 3, echo = FALSE, warning = FALSE}
+my_color <- "#7DA7CA"
+
 residuals_lm3 <- ListingsCovid_lm3$residuals
-ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm3)) +
-  geom_point(color = my_color) +
-  geom_smooth(
-    color = "black",
-    method = "lm",
-    formula = y ~ x,
-    size = 0.5
-  ) +
-  labs(y = "Residuals", x = "Weekly Covid cases", title = "Model 3: Checking heteroskedasticity") + theme(plot.title = element_text(
+ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm3)) + geom_point(color = my_color) + geom_smooth(
+  color = "black",
+  method = "glm",
+  formula = y ~ x,
+  size = 0.5
+) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Heteroskedasticity") + theme(
+  plot.title = element_text(
     color = "black",
     size = 14,
     hjust = 0.5,

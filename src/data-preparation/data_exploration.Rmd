@@ -66,7 +66,8 @@ summary_1 <- table1::table1(~ room_type + price + minimum_nights + number_of_rev
 
 ```{r load summary table, echo = FALSE}
 t1kable(summary_1) %>%
-  kable_styling(full_width = F)
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    font_size = 13)
 ```
 
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
