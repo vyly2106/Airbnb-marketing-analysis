@@ -19,18 +19,16 @@ ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 summary(ListingsCovid)
 
 # Histogram of avg_price(both with and without log function)
-ggplot(ListingsCovid, aes(avg_price)) + geom_histogram(bin = 50)
-ggplot(ListingsCovid, aes(avg_price)) + geom_histogram(bin = 50) + scale_x_log10()
+ggplot(ListingsCovid, aes(log_price)) + geom_histogram(binwidth = .2)
 
 #Scatterplot of Price per weekly count
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price, color = country_code)) +
-  geom_point() +
-  scale_y_log10()
+       aes(x = log_weekly_count, y = log_price, color = country_code)) +
+  geom_point()
 
 #scatterplot of Price per weekly count by country code
 ggplot(ListingsCovid,
-       aes(x = weekly_count, y = avg_price, color = country_code)) +
+       aes(x = weekly_count, y = log_price, color = country_code)) +
   geom_point() +
   scale_y_log10() +
   labs(title = "Price per weekly count by country code") +
@@ -38,7 +36,7 @@ ggplot(ListingsCovid,
 
 ## Simple regression with DV Log avg_price and IV weekly_count
 ListingsCovid_lm0 <-
-  lm(log(avg_price) ~ weekly_count, ListingsCovid)
+  lm(log(avg_price) ~ log_weekly_count, ListingsCovid)
 
 summary(ListingsCovid_lm0)
 

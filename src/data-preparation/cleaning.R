@@ -41,9 +41,11 @@ combined_data2 <- combined_data %>%
 
 ## Covid data
 ### Downloading covid data from online dataset
-covid_df <- read.csv("https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv/data.csv")
-write.csv(covid_df, "../../data/covid_data.csv", row.names =
-            F)
+covid_df <-
+  read.csv("https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv/data.csv")
+write.csv(covid_df,
+          paste0("../../data/covid_data.csv"),
+          row.names = F)
 head(covid_df)
 
 ###not necessary to run just added for makefile purposes
@@ -71,6 +73,7 @@ merged_data <- merged_data %>%
   mutate(across(.cols = everything(), ~ ifelse(is.infinite(.x), 0, .x)))
 
 ## Writing data into csv file
-write.csv(merged_data, "../../gen/temp/merged_data.csv", row.names =
-            F)
+write.csv(merged_data,
+          paste0("../../gen/temp/merged_data.csv"),
+          row.names = F)
 
