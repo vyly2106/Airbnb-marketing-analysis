@@ -77,3 +77,4 @@ write.csv(merged_data,
           paste0("../../gen/temp/merged_data.csv"),
           row.names = F)
 
+## Nice, now we can move on to analyzing the data!

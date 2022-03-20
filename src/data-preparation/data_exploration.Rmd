@@ -5,21 +5,47 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document:
     df_print: paged
-  pdf_document: default
+    fig_width: 10
+    fig_height: 6
 ---
 
+```{=html}
 <style>
-body {
-  color: #444444;
-  font-family: Calibri;
-  font-size: 12pt;
-  background-color: #F5F5F5;
+
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1.5px solid #ddd;
+}
+p {
+  padding: 15px 10px 15px 10px;;
+}
+
+body {
+  color: #0f1217;
+  font-family: Calibri;
+  font-size: 14pt;
+  background-color: #f2f2f2;
+}
+
+h1 {
+  color: #003d99;
+  font-family: Trebuchet MS;
+  font-size: 20pt;
+  padding: 5px 10px 5px 10px;
+}
+
 pre {
   color: #708090;
-  background-color: #F8F8FF;
+  background-color: #f3f2ff;
 }
 </style>
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
@@ -37,11 +63,11 @@ combined_data <- read.csv("../../gen/temp/combined_city_data.csv")
 combined_data$room_type <- as.factor(combined_data$room_type)
 ```
 
-### Overview of the Airbnb listings
+# Overview of the Airbnb listings
 The `combined_data` contains listings of 17 analyzed European cities. It captures around 200,000 observations in total, and not every city has the same number of listings as one another. Below is an overview of the first few rows and columns of the `combined_data`
 
 ```{r load_dataset_as_table, echo = FALSE}
-kable(combined_data[1:10, c("id", "name", "room_type", "price", "minimum_nights", "number_of_reviews", "city", "country_code")], col.names = c("id", "name", "room_type", "price", "min_nights", "reviews", "city", "country") , align = "c", caption = "Table 1: Combined dataset of Airbnb listings of 16 cities")
+kable(combined_data[1:10, c("id", "name", "room_type", "price", "minimum_nights", "number_of_reviews", "city", "country_code")], col.names = c("id", "name", "room_type", "price", "min_nights", "reviews", "city", "country") , align = "c",, font_size = 14, caption = "Table 1: Combined dataset of Airbnb listings of 16 cities")
 ```
 
 
@@ -49,7 +75,7 @@ kable(combined_data[1:10, c("id", "name", "room_type", "price", "minimum_nights"
 After loading the dataset, we can start with inspection of "typical value" and "location" for each variable.
 
 
-### Estimates of location
+# Estimates of location
 
 ```{r statistics_summary, include = FALSE, echo = FALSE}
 table1::label(combined_data$room_type) <- "Room Types"
@@ -66,8 +92,7 @@ summary_1 <- table1::table1(~ room_type + price + minimum_nights + number_of_rev
 
 ```{r load summary table, echo = FALSE}
 t1kable(summary_1) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    font_size = 13)
+  kable_styling(  bootstrap_options = c("striped", "hover", "condensed", "responsive"), font_size = 14)
 ```
 
 According to the statistics summary, entire home/apartment accumulates more than half of the observations. This tendency also appears across listings of each city. Taking up the second most offered type of room is private room. What we could take on from here is that the Airbnb landscape in European market values privacy and personal comfort but at the same time the guests can stay close to local neighbourhood compared to traditional hotels.
@@ -99,7 +124,7 @@ Without taking the log transformation to cancel out different units of measureme
 
 
 
-### References
+# References
 Statista. (2021). Least affordable cities for backpacking in Europe for 2020, by daily price index (in U.S. dollars). Retrieved from https://www.statista.com/statistics/696870/most-expensive-cities-for-backpacking-europe/
 
 Statista. (2021). Cheapest cities to visit in Europe as of December 2021, by daily price. Retrieved from https://www.statista.com/statistics/696725/most-affordable-cities-for-backpacking-europe/

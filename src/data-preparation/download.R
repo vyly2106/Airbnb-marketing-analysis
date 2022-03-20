@@ -45,3 +45,7 @@ glimpse(combined_data)
 write.csv(combined_data,
           paste0("../../gen/temp/combined_city_data.csv"),
           row.names = F)
+
+## Congrats you finish downloading script, next is cleaning!
+
+

@@ -1,7 +1,7 @@
 ---
 title: "Regression Analysis"
 author: "Team 5"
-date: "3/20/2022"
+date:  "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
     fig_width: 10
@@ -45,6 +45,7 @@ pre {
 }
 </style>
 ```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
 ```
@@ -62,6 +63,8 @@ library(table1)
 library(kableExtra)
 library(scales)
 library(pander)
+library(rmarkdown)
+
 ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 ListingsCovid$room_type <- as.factor(ListingsCovid$room_type)
 ```
