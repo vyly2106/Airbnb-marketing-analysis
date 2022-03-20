@@ -106,4 +106,10 @@ This project was created by Theresa, Vy, and Marissa for the class [Data prepara
 
 
 ## References
-TBD
+ATO. (2020). Cash flow boost for Airbnb hosts. ATO: Australian Taxation Office. Retrieved from https://community.ato.gov.au/t5/COVID-19-response/Cash-Flow-Boost-for-Airbnb-Hosts/td-p/76460.
+Gunter, U., O ̈ nder, I. & Zekan, B. (2020). Modeling airbnb demand to New York city while employing spatial panel data at the listing level. Tourism Management, 77, 104000. http://dx.doi.org/10.1016/j.jclepro.2019.02.221
+Falk, M., Larpin, B., & Scaglione, M. (2019). The role of specific attributes in determining prices of airbnb listings in rural and urban locations. International Journal of Hospitality Management, 83 (April), 132-140. http://dx.doi.org/10.1016/j.ijhm.2019.04.023.
+Tang, L.R., Kim, J., & Wang, X. (2019). Estimating spatial effects on peer-to-peer accommodation prices: towards an innovative hedonic model approach. International Journal of Hospitality Management, 81 (March), 43-53. http://dx.doi.org/10.1016/j.ijhm.2019.03.012.
+Sainaghi. R, Abrate, G., & Mauri, A. Price and RevPAR determinants of Airbnb listings: Convergent and divergent evidence. International Journal of Hospitality Management, 92 (2021). http://dx.doi.org/10.1016/j.ijhm.2020.102709.
+STR. (2020). STR: Europe hotel performance for April 2020. Retrieved from available at: https://str.com/press-release/str-europe-hotel-performance-april-2020.
+Zervas, G., Proserpio, D., & Byers, J.W. (2017). The rise of the sharing economy: estimating the impact of airbnb on the hotel industry. Journal of Marketing Research, 54 (5). http://dx.doi.org/10.1509/jmr.15.0204
