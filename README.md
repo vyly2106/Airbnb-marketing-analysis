@@ -31,14 +31,13 @@ The analysis is performed on data from Inside Airbnb and European Centre for Dis
 |cumulative_count|The cumulative number of Covid-19 cases|
 
 
-Since in the Airbnb listings dataset is constructed by unique listing IDs, we first created a year-week variable based on the original last review date and time each listing received from guests. Although this matched the format used in COVID-19 dataset, the deployed technique restricted to listings which have guest reviews. Moving on the next stage, we calculated the average price for each year-week combination, city, and room types, hence we were able isolate outlier observations due to different characteristics of each city and room types. For instance, some cities have way higher living expense than others, and a whole apartment certainly costs more per night than a private room.
+Since the Airbnb listings dataset is constructed by unique listing IDs, we first created a year-week variable based on the original last review date and time each listing received from guests. Although this matched the format used in the COVID-19 dataset, the deployed technique was restricted to listings that have guest reviews. Moving on to the next stage, we calculated the average price for each year-week combination, city, and room type, hence we were able to isolate outlier observations due to different characteristics of each city and room type. For instance, some cities have way higher living expenses than others, and a whole apartment certainly costs more per night than a private room.
 
-All the analysed variables except for room types are measured at continuous scale, for that reason we implemented linear regression method. Besides, in line with prior research (Falk et al., 2019, Tang et al., 2019, Sainaghi et al., 2021) we applied logarithm transformation to our response variable. Based on our initial exploration, taking logarithm of price was part of the remedy to deal with the skewed distribution of price observations. 
+All the analyzed variables except for room types are measured at a continuous scale, for that reason, we implemented a linear regression method. Besides, in line with prior research (Falk et al., 2019, Tang et al., 2019, Sainaghi et al., 2021) we applied logarithm transformation to our response variable. Based on our initial exploration, taking the logarithm of price as part of the remedy to deal with the skewed distribution of price observations. 
 
 
 ## Repository content
-
-This repository contains data on the number of COVID-19 cases per city. Furthermore, is contains Airbnb data from 2021. The data has been collected from various European cities, which include:
+This repository contains data on the number of COVID-19 cases per city. Furthermore, it contains Airbnb data from 2021. The data has been collected from various European cities, which include:
 
 * Amsterdam,	Netherlands
 * Barcelona,	Spain
