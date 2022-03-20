@@ -127,7 +127,7 @@ ggplot(ListingsCovid,
 
 ### Scatterplot(2) of average price (log) vs weekly COVID-19 cases by country
 
-Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country – showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Belgium show no correlation. 
+Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Belgium show no correlation.
 
 ```{r Price per weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,

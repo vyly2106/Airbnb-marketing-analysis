@@ -1,0 +1,270 @@
+---
+title: "Regression Analysis"
+author: "Team 5"
+date: "3/20/2022"
+output: html_document
+---
+
+```{=html}
+<style>
+body {
+  color: #444333;
+  font-family: Calibri;
+  font-size: 14pt;
+  background-color: #F5F5F5;
+}
+pre {
+  color: #708090;
+  background-color: #F8F8FF;
+}
+</style>
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
+```
+
+```{r loading_data, include = FALSE, echo = FALSE}
+library(dplyr)
+library(tidyverse)
+library(readr)
+library(ggplot2)
+library(tidyr)
+library(broom)
+library(car)
+library(knitr)
+library(table1)
+library(kableExtra)
+library(scales)
+library(pander)
+ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
+ListingsCovid$room_type <- as.factor(ListingsCovid$room_type)
+```
+
+### Summary of the dataset
+
+Hi there, welcome to our regression analysis dataset (`ListingsCovid`), which consists of 13 variables and captures 252 observations in total! To get a clear picture of our dataset, the following statistical summary of key variables used to carry out the regression analysis is provided. Also, the variables are filtered according to countries.
+
+```{r statistics_summary, include = FALSE, echo = FALSE}
+table1::label(ListingsCovid$room_type) <- "Room Types"
+table1::label(ListingsCovid$log_price) <- "Average Price(log)"
+table1::label(ListingsCovid$availability_365) <- "Availability"
+table1::label(ListingsCovid$number_of_reviews_ltm) <-
+  "New Reviews per Quarter"
+table1::label(ListingsCovid$reviews_per_month) <- "Monthly Reviews"
+table1::label(ListingsCovid$weekly_count) <- "Weekly Covid Cases"
+
+overview_1 <-
+  table1::table1(
+    ~ room_type + log_price + availability_365 + number_of_reviews_ltm + reviews_per_month +
+      weekly_count | country_code,
+    data = ListingsCovid
+  )
+```
+
+```{r loading statistics summary table, echo =FALSE}
+t1kable(overview_1) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    font_size = 12
+  )
+```
+
+### Histogram of average price(log)
+
+The histogram below indicates the distribution of our dependent variable -- average price(log). Overall, you can see how many times an average price range happens within the period of 2020-2021. Most data points are clustered on the right side of the histogram; indicating that average price (log) does not follow a normal distribution. Additionally, there are a few outliers in the dataset which can effect the results, nevertheless, we chosen to keep them so that you can make your own decision on whether or not to keep them!
+
+```{r distribution of price by country, echo = FALSE, warning = FALSE}
+ggplot(ListingsCovid, aes(log_price)) +
+  geom_histogram(
+    aes(y = ..density..),
+    binwidth = 0.3,
+    color = "black",
+    fill = "#FF5A60"
+  ) +
+  stat_function(
+    fun = dnorm,
+    args = list(
+      mean = mean(ListingsCovid$log_price),
+      sd = sd(ListingsCovid$log_price)
+    ),
+    col = "#1C1103",
+    size = 0.75
+  ) +
+  labs(x = "Average Price (log)", y = "Frequency")
+```
+
+### Scatter-plot of average price (log) vs weekly COVID-19 cases
+
+The following scatterplot indicates whether we could determine a relationship between the average price and weekly COVID-19 cases. The results show that there is little to no correlation between the two variables;thus, it can be said that the weekly COVID-19 cases are irrelevant to the average price.
+
+```{r echo = FALSE, warning = FALSE}
+my_color <- "#FF5A60"
+ggplot(ListingsCovid,
+       aes(x = weekly_count, y = avg_price)) +
+  geom_smooth(
+    method = "glm",
+    formula = y ~ x,
+    method.args = list(family = gaussian(link = 'log'))
+  ) +
+  geom_point(color = my_color) +
+  labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)") +
+  scale_y_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  scale_x_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  )
+```
+
+### Scatterplot(2) of average price (log) vs weekly COVID-19 cases by country
+
+Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Belgium show no correlation.
+
+```{r Price per weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
+ggplot(ListingsCovid,
+       aes(
+         x = weekly_count,
+         y = avg_price,
+         color = country_code,
+         digits = 0
+       )) +
+  scale_y_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  scale_x_log10(
+    breaks = trans_breaks("log10", function(x)
+      10 ^ x),
+    labels = trans_format("log10", math_format(10 ^ .x))
+  ) +
+  geom_point() +
+  geom_smooth(
+    color = "black",
+    size = 0.3,
+    method = "glm",
+    formula = y ~ x,
+    method.args = list(family = gaussian(link = 'log'))
+  ) +
+  labs(title = "Price per weekly COVID-19 cases by country") +
+  facet_wrap(~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)", color = "Country")
+```
+
+### Model 1: Simple regression with the dependent variable as average price (log) and independent variable as weekly COVID-19 cases.
+
+We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased.
+
+```{r Model 1: Simple Regression, echo = FALSE, warning = FALSE}
+regression1 <- lm(log_price ~ weekly_count, ListingsCovid)
+pander(summary(regression1))
+```
+
+### Model 2: Multiple Regression with other characteristics of listings.
+
+We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased.
+
+```{r Model 2:Multi Regression, echo = FALSE, warning = FALSE}
+regression2 <- lm(
+  log_price ~ weekly_count +
+    room_type + minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+)
+
+pander(summary(regression2))
+```
+
+In terms of multicollinearity, all analysed variables have a GVIF below 10. According to the rule of thumb, there is no problem with multicollinearity for any of the variables.
+
+```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
+ListingsCovid_lm2 <- lm(
+  log_price ~ weekly_count +
+    room_type + minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+)
+vif(ListingsCovid_lm2) %>% kable(caption = "*Model 2: checking multicollinearity*")
+```
+
+As for heteroskedasticity, the residuals in model 2 have an unequal variance across all the independent variables; overall indicating heteroskedasticity.
+
+```{r Model 2: Heteroskedasticity, echo = FALSE, warning = FALSE}
+y_color <- "#FF5A60"
+
+residuals_lm2 <- ListingsCovid_lm2$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
+  color = "black",
+  method = "glm",
+  formula = y ~ x,
+  size = 0.5
+) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Heteroskedasticity") + theme(
+  plot.title = element_text(
+    color = "black",
+    size = 14,
+    hjust = 0.5,
+    face = "italic"
+  ))
+```
+
+### Model 3: Regression with added interactions between weekly COVID-19 cases and room types.
+
+We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased.
+
+```{r Model 3:Regression Analysis, echo = FALSE, warning = FALSE}
+regression3 <- lm(
+  log_price ~ weekly_count * room_type +
+    minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+)
+
+pander(summary(regression3))
+```
+
+The variable minimum_nights has the lowest GVIF, so it has the weakest correlation. Whereas,the highest is for the interaction between weekly_count and room_type. Interaction terms naturally produce higher multicollinearity. All analysed variables have a GVIF below 10. According to the rule of thumb,there is no problem with multicollinearity for any of the variables.
+
+```{r Model 3: Checking multicollinearity, echo = FALSE, warning = FALSE}
+ListingsCovid_lm3 <- lm(
+  log_price ~ weekly_count * room_type +
+    minimum_nights +
+    reviews_per_month +
+    number_of_reviews_ltm +
+    availability_365,
+  ListingsCovid
+)
+vif(ListingsCovid_lm3) %>% kable(caption = "*Model 3: Checking multicollinearity*")
+```
+
+The residuals in model 3 have an unequal variance across all the independent variables, which indicates heteroskedasticity.
+
+```{r checking heteroskedasticity of Model 3, echo = FALSE, warning = FALSE}
+residuals_lm3 <- ListingsCovid_lm3$residuals
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm3)) +
+  geom_point(color = my_color) +
+  geom_smooth(
+    color = "black",
+    method = "lm",
+    formula = y ~ x,
+    size = 0.5
+  ) +
+  labs(y = "Residuals", x = "Weekly Covid cases", title = "Model 3: Checking heteroskedasticity") + theme(plot.title = element_text(
+    color = "black",
+    size = 14,
+    hjust = 0.5,
+    face = "italic"
+  ))
+```
+
+### Conclusion
+
+In conclusion model 3 has the best model fit.
