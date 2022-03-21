@@ -2,13 +2,10 @@
 title: "Regression Analysis"
 author: "Team 5"
 date:  "`r format(Sys.time(), '%d %B %Y')`"
-output: 
+output:
   html_document:
     fig_width: 10
     fig_height: 6
-render:
-  output_dir: paste0("../../gen/output/regression_analysis.html")
-  out_format: "html_document"
 ---
 
 ```{=html}
@@ -206,34 +203,32 @@ ListingsCovid_lm2 <- lm(
     availability_365,
   ListingsCovid
 )
-vif(ListingsCovid_lm2) %>% kable(caption = "*Model 2: Checking Multicollinearity*")
+vif(ListingsCovid_lm2)%>% kable(caption = "*Model 2: Checking Multicollinearity*")
 ```
 
 As for heteroskedasticity, the residuals in model 2 have an unequal variance across all the independent variables; overall indicating heteroskedasticity.
 
-```{r Model 2: Heteroskedasticity, echo = FALSE, warning = FALSE}
+```{r Model 2 Heteroskedasticity, echo=FALSE, results='asis', message = FALSE, error = FALSE, warning= FALSE}
 my_color <- "#7DA7CA"
-
 residuals_lm2 <- ListingsCovid_lm2$residuals
 ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
   color = "black",
   method = "glm",
   formula = y ~ x,
   size = 0.5
-) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Checking Heteroskedasticity") + theme(
-  plot.title = element_text(
-    color = "black",
-    size = 14,
-    hjust = 0.5,
-    face = "italic"
-  ))
+) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Checking Heteroskedasticity") + theme(plot.title = element_text(
+  color = "black",
+  size = 14,
+  hjust = 0.5,
+  face = "italic"
+))
 ```
 
 # Model 3: Regression with added interactions
 
 We have added the interaction between weekly_count and room_type to model 2 to check if it would improve the model fit. By comparing the R squared from model 2 and model 3, it is evident that the the R squared has barely increased.
 
-```{r Model 3:Regression Analysis, echo = FALSE, warning = FALSE}
+```{r Model 3 Regression Analysis, echo = FALSE, warning = FALSE}
 regression3 <- lm(
   log_price ~ weekly_count * room_type +
     minimum_nights +
@@ -270,7 +265,7 @@ ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm3)) + geom_point
   method = "glm",
   formula = y ~ x,
   size = 0.5
-) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Checking Heteroskedasticity") + theme(
+) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 3: Checking Heteroskedasticity") + theme(
   plot.title = element_text(
     color = "black",
     size = 14,
@@ -280,9 +275,7 @@ ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm3)) + geom_point
 ```
 
 # Conclusion
-
-In conclusion model 3 has the best model fit.
-
+To conclude, the number of COVID-19 cases affect Airbnb prices differently per country. Since the multicollinearity and heteroskedasticity of model 2 and model 3 yield the same conclusion, we look mainly at the model fit to determine the best model, which is model 3.
 
 
 
