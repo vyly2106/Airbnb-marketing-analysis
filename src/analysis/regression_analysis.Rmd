@@ -6,6 +6,9 @@ output:
   html_document:
     fig_width: 10
     fig_height: 6
+render:
+  output_dir: paste0("../../gen/output/regression_analysis.html")
+  out_format: "html_document"
 ---
 
 ```{=html}
@@ -49,7 +52,6 @@ pre {
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
 ```
-
 ```{r loading_data, include = FALSE, echo = FALSE}
 library(dplyr)
 library(tidyverse)
@@ -63,7 +65,6 @@ library(table1)
 library(kableExtra)
 library(scales)
 library(pander)
-library(rmarkdown)
 
 ListingsCovid <- read.csv("../../gen/temp/merged_data.csv")
 ListingsCovid$room_type <- as.factor(ListingsCovid$room_type)
@@ -281,3 +282,7 @@ ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm3)) + geom_point
 # Conclusion
 
 In conclusion model 3 has the best model fit.
+
+
+
+
