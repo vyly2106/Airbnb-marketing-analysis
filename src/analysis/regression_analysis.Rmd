@@ -1,13 +1,13 @@
 ---
-title: "Regression Analysis"
+title: "Regression analysis"
 author: "Team 5"
-date:  "`r format(Sys.time(), '%d %B %Y')`"
+date:  "3/27/2022"
 output:
   html_document:
     fig_width: 10
     fig_height: 6
 knit: (function(analysis, encoding) {
-      out_dir <- "output";
+      out_dir = "output";
       rmarkdown::render(analysis,
                         encoding=encoding,
                         output_dir=file.path(dirname("../../gen/output"), out_dir))})

@@ -2,16 +2,16 @@
 title: "Data Exploration"
 author: "Team 5"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output:
-  html_document:
-    df_print: paged
-    fig_width: 10
-    fig_height: 6
-knit: (function(analysis, encoding) {
-      out_dir <- "output";
-      rmarkdown::render(analysis,
-                        encoding=encoding,
-                        output_dir=file.path(dirname("../../gen/output"), out_dir))})
+output:html_document:
+  df_print: paged
+  fig_width: 10
+  fig_height: 6
+knit: (function(analysis,
+  encoding) {
+    out_dir <- "output";
+    rmarkdown::render(analysis,
+    encoding=encoding,
+    output_dir=file.path(dirname("../../gen/output"), out_dir))})
 ---
 
 ```{=html}
