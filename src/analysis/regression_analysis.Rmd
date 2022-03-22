@@ -6,6 +6,11 @@ output:
   html_document:
     fig_width: 10
     fig_height: 6
+knit: (function(analysis, encoding) {
+      out_dir <- "output";
+      rmarkdown::render(analysis,
+                        encoding=encoding,
+                        output_dir=file.path(dirname("../../gen/output"), out_dir))})
 ---
 
 ```{=html}
@@ -47,7 +52,7 @@ pre {
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
+knitr::opts_chunk$set( fig.align = "center", echo = TRUE)
 ```
 ```{r loading_data, include = FALSE, echo = FALSE}
 library(dplyr)
@@ -78,8 +83,8 @@ table1::label(ListingsCovid$availability_365) <- "Availability"
 table1::label(ListingsCovid$number_of_reviews_ltm) <-
   "New Reviews per Quarter"
 table1::label(ListingsCovid$reviews_per_month) <- "Monthly Reviews"
-table1::label(ListingsCovid$log_weekly_count) <-
-  "Weekly Covid Cases(log)"
+table1::label(ListingsCovid$weekly_count) <-
+  "Weekly Covid Cases"
 
 overview_1 <-
   table1::table1(
@@ -126,26 +131,26 @@ The following scatterplot indicates whether we could determine a relationship be
 ```{r echo = FALSE, warning = FALSE}
 my_color <- "#7DA7CA"
 ggplot(ListingsCovid,
-       aes(x = log_weekly_count, y = log_price)) +
+       aes(x = weekly_count, y = log_price)) +
   geom_smooth(
-    color= "black",
+    color = "black",
     size = 0.3,
     method = "glm",
     formula = y ~ x,
     method.args = list(family = gaussian(link = 'log'))
-  ) +
+  ) + scale_x_continuous(labels = comma) +
   geom_point(color = my_color) +
-  labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)")
+  labs(y = "Average price(log)", x = "Weekly COVID-19 cases")
 ```
 
 # Scatterplot of average price vs weekly COVID-19 cases by country
 
-Since the previous scatterplot shows no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as the Netherlands, Germany, and Austria show no correlation.
+Since the previous scatterplot shows little to no correlation between the average price and weekly COVID-19 cases, we decided to investigate whether the country may affect the results. The finding from the second scatterplot is as follows: the correlations do differ per country -- showing either a positive or negative linear relationship between the two variables, while still, quite a few countries such as Germany, and United Kingdom show no correlation.
 
-```{r Price per weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
+```{r Price vs weekly COVID-19 cases by Country, echo = FALSE, warning = FALSE}
 ggplot(ListingsCovid,
        aes(
-         x = log_weekly_count,
+         x = weekly_count,
          y = log_price,
          color = country_code,
          digits = 0
@@ -157,9 +162,10 @@ ggplot(ListingsCovid,
     method = "glm",
     formula = y ~ x,
     method.args = list(family = gaussian(link = 'log'))
-  ) +
-  labs(title = "Price per weekly COVID-19 cases by country") +
-  facet_wrap( ~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases(log)", color = "Country")
+  ) + scale_x_continuous(labels = c("0", "200", "400"),
+                         breaks = scales::breaks_extended(n = 3)) +
+  labs(title = "Price vs weekly COVID-19 cases by country") +
+  facet_wrap(~ country_code) + labs(y = "Average price(log)", x = "Weekly COVID-19 cases (in thousands)", color = "Country")
 ```
 
 # Model 1: Simple regression
@@ -196,7 +202,7 @@ In terms of multicollinearity, all analysed variables have a GVIF below 10. Acco
 
 ```{r checking multicollinearity of Model 2, echo = FALSE, warning = FALSE}
 ListingsCovid_lm2 <- lm(
-  log_price ~ log_weekly_count +
+  log_price ~ weekly_count +
     room_type + minimum_nights +
     reviews_per_month +
     number_of_reviews_ltm +
@@ -211,17 +217,18 @@ As for heteroskedasticity, the residuals in model 2 have an unequal variance acr
 ```{r Model 2 Heteroskedasticity, echo=FALSE, results='asis', message = FALSE, error = FALSE, warning= FALSE}
 my_color <- "#7DA7CA"
 residuals_lm2 <- ListingsCovid_lm2$residuals
-ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm2)) + geom_point(color = my_color) + geom_smooth(
   color = "black",
   method = "glm",
   formula = y ~ x,
   size = 0.5
-) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 2: Checking Heteroskedasticity") + theme(plot.title = element_text(
-  color = "black",
-  size = 14,
-  hjust = 0.5,
-  face = "italic"
-))
+) + scale_x_continuous(labels = comma) +
+  labs(y = "Residuals", x = "Weekly Covid cases", title = "Model 2: Checking Heteroskedasticity") + theme(plot.title = element_text(
+    color = "black",
+    size = 14,
+    hjust = 0.5,
+    face = "italic"
+  ))
 ```
 
 # Model 3: Regression with added interactions
@@ -260,13 +267,13 @@ The residuals in model 3 have an unequal variance across all the independent var
 my_color <- "#7DA7CA"
 
 residuals_lm3 <- ListingsCovid_lm3$residuals
-ggplot(ListingsCovid, aes(x = log_weekly_count, y = residuals_lm3)) + geom_point(color = my_color) + geom_smooth(
+ggplot(ListingsCovid, aes(x = weekly_count, y = residuals_lm3)) + geom_point(color = my_color) + geom_smooth(
   color = "black",
   method = "glm",
   formula = y ~ x,
   size = 0.5
-) + labs(y = "Residuals", x = "Weekly Covid count", title = "Model 3: Checking Heteroskedasticity") + theme(
-  plot.title = element_text(
+) + scale_x_continuous(labels = comma) +
+  labs(y = "Residuals", x = "Weekly Covid cases", title = "Model 3: Checking Heteroskedasticity") + theme(plot.title = element_text(
     color = "black",
     size = 14,
     hjust = 0.5,
