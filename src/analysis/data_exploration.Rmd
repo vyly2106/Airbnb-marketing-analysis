@@ -106,11 +106,26 @@ According to the statistics summary, entire home/apartment accumulates more than
 ```{r distribution of price as a whole, echo = FALSE, warning = FALSE}
 ggplot(combined_data, aes(x = price)) +
   geom_histogram(bins = 30, fill = "steelblue", alpha = 0.6) +
-  geom_vline(aes(xintercept=mean(combined_data$price), color = "mean_price")) +
-  geom_vline(aes(xintercept=median(combined_data$price), color = "median_price")) +
+  geom_vline(aes(
+    xintercept = mean(combined_data$price),
+    color = "mean_price"
+  )) +
+  geom_vline(aes(
+    xintercept = median(combined_data$price),
+    color = "median_price"
+  )) +
   scale_colour_manual(values = c("mean_price" = "red", "median_price" = "green")) +
-  labs(title = "Distribution of Price") +
+  labs(
+    title = "Distribution of Price",
+    x = "Price",
+    y = "Number of Listings",
+    color = "Summary statistics"
+  ) +
+  theme(plot.title = element_text(color = "black",
+                                  size = 14,
+                                  face = "italic")) +
   xlim(c(0, 2000))
+
 ```
 
 
@@ -120,8 +135,23 @@ In terms of price, we have noticed different variation in price range, which is 
 ```{r distribution of price by country, echo = FALSE, warning = FALSE}
 ggplot(combined_data, aes(x = price, fill = country_code)) +
   geom_histogram(bins = 30) +
-  labs(title = "Distribution of Price by Country") +
-  xlim(c(0, 2000)) +
+  labs(title = "Distribution of Price by Country",
+       x = "Price (in thousands)",
+       y = "Number of Listings(in thousands)",
+       fill = "Country") +
+  scale_x_continuous(
+    labels = c("0", "0.5", "1", "1.5", "2"),
+    breaks = c(0, 500, 1000, 1500, 2000),
+    limit = c(0, 2000)
+  ) +
+  scale_y_continuous(
+    labels = c("0", "10", "20"),
+    breaks = c(0, 10000, 20000),
+    limit = c(0, 20000)
+  ) +
+  theme(plot.title = element_text(color = "black",
+                                  size = 14,
+                                  face = "italic")) +
   facet_wrap( ~ country_code)
 ```
 

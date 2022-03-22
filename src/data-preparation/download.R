@@ -41,7 +41,18 @@ combined_data = do.call('rbind', tbl)
 head(combined_data)
 glimpse(combined_data)
 
-## Writing data into csv file
+## Writing data into csv file and creating directory if nonexistent
+if (!dir.exists("../../gen")) {
+  dir.create("../../gen")
+} else {
+  print("Directory already exists!")
+}
+
+if (!dir.exists("../../gen/temp")) {
+  dir.create("../../gen/temp")
+} else {
+  print("Directory already exists!")
+}
 write.csv(combined_data,
           paste0("../../gen/temp/combined_city_data.csv"),
           row.names = F)
