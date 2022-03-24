@@ -1,6 +1,6 @@
 DATA = ../../data
 TEMP = ../../gen/temp
-OUTPUT = = ../../gen/output
+OUTPUT = ../../gen/output
 
 #Analysis
 
