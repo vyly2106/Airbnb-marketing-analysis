@@ -82,16 +82,18 @@ Open the command terminal/line:
 ## Repository Structure:
 ```
 .
-.
 ├── README.md
-├── code
-├── data
-├── gen
-├── src
-│   ├── analysis
-│   └── data-preparation
 ├── makefile
-└── src.Rproj
+└── src
+    ├── analysis
+    │   ├── data_exploration.Rmd
+    │   ├── makefile
+    │   └── regression_analysis.Rmd
+    └── data-preparation
+        ├── cleaning.R
+        ├── download.R
+        ├── install_r_packages.R
+        └── makefile
 ```
 
 ## Data Resources
