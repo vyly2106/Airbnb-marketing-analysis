@@ -1,0 +1,26 @@
+{
+    "id": "FD42CFA4",
+    "path": "~/Documents/Airbnb-marketing-analysis/src/analysis/results.Rmd",
+    "project_path": "src/analysis/results.Rmd",
+    "type": "r_markdown",
+    "hash": "718111748",
+    "contents": "",
+    "dirty": false,
+    "created": 1647471200674.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "132,3",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1647473737,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1647473737291,
+    "read_only": false,
+    "read_only_alternatives": []
+}
