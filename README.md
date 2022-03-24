@@ -108,7 +108,7 @@ This project was created by Theresa, Vy, and Marissa for the class [Data prepara
 ## References
 ATO. (2020). Cash flow boost for Airbnb hosts. ATO: Australian Taxation Office. Retrieved from https://community.ato.gov.au/t5/COVID-19-response/Cash-Flow-Boost-for-Airbnb-Hosts/td-p/76460.
  
-Gunter, U., O ̈ nder, I. & Zekan, B. (2020). Modeling airbnb demand to New York city while employing spatial panel data at the listing level. Tourism Management, 77, 104000. https://www.sciencedirect.com/science/article/abs/pii/S0261517719301980?via%3Dihub
+Gunter, U., O ̈ nder, I. & Zekan, B. (2020). Modeling airbnb demand to New York city while employing spatial panel data at the listing level. Tourism Management, 77, 104000. http://dx.doi.org/10.1016/j.tourman.2019.104000
  
 Falk, M., Larpin, B., & Scaglione, M. (2019). The role of specific attributes in determining prices of airbnb listings in rural and urban locations. International Journal of Hospitality Management, 83 (April), 132-140. http://dx.doi.org/10.1016/j.ijhm.2019.04.023.
  
