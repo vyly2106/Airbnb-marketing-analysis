@@ -59,7 +59,7 @@ This repository contains data on the number of COVID-19 cases per city. Furtherm
 
 
 ## Our Findings
-The number of COVID-19 cases affect Airbnb prices differently per country. Independent variables that explain the model are: `weekly_counrt`, `room_type`, `minimum_nights`,`reviews_per_month`,`number_of_reviews_ltm`, `availability_365` and the interaction term `weekly_count:room_type`.
+The number of COVID-19 cases affect Airbnb prices differently per country. Independent variables that explain the model used are: `weekly_counrt`, `room_type`, `minimum_nights`,`reviews_per_month`,`number_of_reviews_ltm`, `availability_365` and the interaction term `weekly_count:room_type`.
 
 ## Running Instructions
 ### Dependencies
