@@ -1,4 +1,7 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
+**/data
+**/gen
+**/gen/output
+**/gen/temp
+*csv
+*xlsx
+*html
