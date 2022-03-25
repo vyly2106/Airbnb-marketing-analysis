@@ -105,7 +105,7 @@ Visit the data section at [Inside Airbnb](http://insideairbnb.com/get-the-data.h
 
 ## About Us
 
-This project was created by Theresa, Vy, and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
+This project was created by Theresa, Vy (Claudia Li), and Marissa for the class [Data preparation and Workflow Management (dPrep)](https://dprep.hannesdatta.com/) at Tilburg University.
 
 
 ## References
