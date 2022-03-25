@@ -56,11 +56,7 @@ pre {
 knitr::opts_chunk$set( fig.align = "center", echo = TRUE)
 ```
 ```{r loading_data, include = FALSE, echo = FALSE}
-library(dplyr)
 library(tidyverse)
-library(readr)
-library(ggplot2)
-library(tidyr)
 library(broom)
 library(car)
 library(knitr)
