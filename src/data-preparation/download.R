@@ -18,6 +18,14 @@ options(warn = -1)
 
 ## Importing Google Sheet as CSV in R. 
 ### Note: Click Session (on menu bar) -> Set Working Directory -> To Source File Location
+### Generate data folder
+if (!dir.exists("../../data")) {
+  dir.create("../../data")
+} else {
+  print("Directory already exists!")
+}
+
+### Parse listings from Google Sheet to data folder
 drive_id <- "1BHtCZokCgAtHWBDZOI-meOIWLIBp6nbhU4MurlzVHlg"
 drive_download(as_id(drive_id), path = "../../data/Airbnb_listings.csv", overwrite = TRUE)
 Airbnb_links <- read.csv("../../data/Airbnb_listings.csv", encoding = "UTF-8")
