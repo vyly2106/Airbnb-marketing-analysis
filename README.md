@@ -80,8 +80,8 @@ Open the command terminal/line:
 ```
 .
 ├── README.md
-├── data <- store raw data from Inside Airbnb and ECDC
-├── gen <- default location for all generated files during the workflow, including temporary, audit, final output
+├── data <- store raw data from Inside Airbnb and ECDC (visible after workflow is completed)
+├── gen <- default location for all generated files during the workflow, including temporary, audit, final output (visible after workflow is completed)
 │   ├── output
 │   └── temp
 ├── makefile
