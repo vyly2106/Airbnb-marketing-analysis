@@ -57,10 +57,7 @@ knitr::opts_chunk$set(fig.align = "center", echo = TRUE)
 ```
 
 ```{r loading_data, include = FALSE, echo = FALSE}
-library(dplyr)
 library(tidyverse)
-library(ggplot2)
-library(tidyr)
 library(knitr)
 library(table1)
 library(kableExtra)
