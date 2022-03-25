@@ -1,13 +1,6 @@
 ## Load packages
-library(googledrive)
-library(dplyr)
 library(tidyverse)
-library(readr)
 library(lubridate)
-library(ggplot2)
-library(tidyr)
-library(car)
-options(warn = -1)
 
 #---------------#
 # Data Cleaning #
