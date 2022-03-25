@@ -4,15 +4,7 @@
 
 ## Load packages
 library(googledrive)
-library(dplyr)
 library(tidyverse)
-library(readr)
-library(lubridate)
-library(ggplot2)
-library(tidyr)
-library(knitr)
-library(table1)
-library(kableExtra)
 options(warn = -1)
 
 
